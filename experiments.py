@@ -8,31 +8,42 @@ from typing import Callable, List
 from dataset.mmlu import load_mmlu, make_questions
 from graph import CombineAnswerNode, Edge, Graph, LLMNode
 from swarm.swarm import Swarm
+from swarm.ea_swarm import EASwarm
 
 # ── Config ─────────────────────────────────────────────────────────────────────
-N_TOTAL   = 60   # total MMLU questions to load
-N_TRAIN   = 30   # questions used for REINFORCE optimization
-N_TEST    = 3 # questions used for final evaluation
-RL_STEPS  = 30   # REINFORCE training steps
-LR        = 0.1  # learning rate (Adam)
+MODEL     = "llama3.1:8b"
+N_TOTAL   = 60
+N_TRAIN   = 30
+N_TEST    = 3
+RL_STEPS  = 30
+LR        = 0.1
+EA_GENS   = 10
+EA_POP    = 8
 # ──────────────────────────────────────────────────────────────────────────────
 
 
 def build_swarm_graph() -> Graph:
     direct_answer = LLMNode(
-        "You are a knowledgeable expert in question answering. I will ask you a question. I will also give you 4 answers enumerated as A, B, C and D. Only one answer out of the offered 4 is correct. You must choose the correct answer to the question. Your response must be one of the 4 letters: A, B, C or D, corresponding to the correct answer. Only one letter (A, B, C or D) is allowed in your answer.",
+        "You are a knowledgeable expert in question answering. I will ask you a question. "
+        "I will also give you 4 answers enumerated as A, B, C and D. Only one answer out of "
+        "the offered 4 is correct. You must choose the correct answer to the question. Your "
+        "response must be one of the 4 letters: A, B, C or D, corresponding to the correct "
+        "answer. Only one letter (A, B, C or D) is allowed in your answer.",
+        model=MODEL,
         operation_description="direct_answer",
     )
     adversarial = LLMNode(
         "Answer a lie to the following question:",
+        model=MODEL,
         operation_description="adversarial",
     )
     aggregator = CombineAnswerNode(
         system_prompt=(
-            "Two agents have answered a multiple-choice question, each giving a single letter (A, B, C, or D). "
-            "Choose the letter that appears most often. If tied, use your best judgement. "
-            "Output only a single letter: A, B, C, or D."
+            "Two agents have answered a multiple-choice question, each giving a single letter "
+            "(A, B, C, or D). Choose the letter that appears most often. If tied, use your best "
+            "judgement. Output only a single letter: A, B, C, or D."
         ),
+        model=MODEL,
         operation_description="Aggregator",
     )
     graph = Graph(output_node=aggregator)
@@ -71,9 +82,14 @@ async def main():
     results = {}
 
     # ── Baseline 1: Single IO agent ────────────────────────────────────────────
-    print("=== [1/4] Baseline: Single IO Agent ===")
+    print("=== [1/5] Baseline: Single IO Agent ===")
     io_node = LLMNode(
-        "You are a knowledgeable expert in question answering. I will ask you a question. I will also give you 4 answers enumerated as A, B, C and D. Only one answer out of the offered 4 is correct. You must choose the correct answer to the question. Your response must be one of the 4 letters: A, B, C or D, corresponding to the correct answer. Only one letter (A, B, C or D) is allowed in your answer.",
+        "You are a knowledgeable expert in question answering. I will ask you a question. "
+        "I will also give you 4 answers enumerated as A, B, C and D. Only one answer out of "
+        "the offered 4 is correct. You must choose the correct answer to the question. Your "
+        "response must be one of the 4 letters: A, B, C or D, corresponding to the correct "
+        "answer. Only one letter (A, B, C or D) is allowed in your answer.",
+        model=MODEL,
         operation_description="IOAgent",
     )
     io_graph = Graph(output_node=io_node)
@@ -82,8 +98,8 @@ async def main():
     results["io_baseline"] = {"accuracy": acc, "time_s": round(time.time() - t0, 1)}
     print(f"IO accuracy: {acc:.3f}\n")
 
-    # ── Baseline 2: Fully connected swarm (no optimization) ────────────────────
-    print("=== [2/4] Baseline: Fully Connected Swarm ===")
+    # ── Baseline 2: Fully connected swarm ─────────────────────────────────────
+    print("=== [2/5] Baseline: Fully Connected Swarm ===")
     graph_fc = build_swarm_graph()
     for e in graph_fc.edges:
         e.active = True
@@ -93,7 +109,7 @@ async def main():
     print(f"Fully connected accuracy: {acc:.3f}\n")
 
     # ── Baseline 3: Randomly connected swarm ──────────────────────────────────
-    print("=== [3/4] Baseline: Randomly Connected Swarm ===")
+    print("=== [3/5] Baseline: Randomly Connected Swarm ===")
     graph_rand = build_swarm_graph()
     correct = 0.0
     t0 = time.time()
@@ -108,9 +124,8 @@ async def main():
     results["random_connected"] = {"accuracy": rand_acc, "time_s": round(time.time() - t0, 1)}
     print(f"Random connected accuracy: {rand_acc:.3f}\n")
 
-
     # ── REINFORCE optimization ─────────────────────────────────────────────────
-    print("=== [4/4] REINFORCE Optimization ===")
+    print("=== [4/5] REINFORCE Optimization ===")
     graph_rl = build_swarm_graph()
     for e in graph_rl.edges:
         e.active = True
@@ -121,9 +136,9 @@ async def main():
         n_iterations=RL_STEPS,
         verbose=True,
     )
-    train_time = round(time.time() - t0, 1)
+    train_time_rl = round(time.time() - t0, 1)
 
-    print("\nEdge weights after training:")
+    print("\nEdge weights after REINFORCE:")
     for e in graph_rl.edges:
         e.active = e.probability > 0.5
         print(f"  {repr(e)}  w={e.weight:.3f}  p={e.probability:.3f}  active={e.active}")
@@ -132,33 +147,62 @@ async def main():
     results["reinforce"] = {
         "accuracy": acc,
         "train_rewards": [round(r, 3) for r in rl_rewards],
-        "train_time_s": train_time,
+        "train_time_s": train_time_rl,
         "final_edge_weights": [round(e.weight, 4) for e in graph_rl.edges],
         "final_edge_probs":   [round(e.probability, 4) for e in graph_rl.edges],
     }
     print(f"REINFORCE accuracy: {acc:.3f}\n")
 
-    # ── Save results ───────────────────────────────────────────────────────────
+    # ── EA optimization ────────────────────────────────────────────────────────
+    print("=== [5/5] EA Optimization ===")
+    graph_ea = build_swarm_graph()
+    ea = EASwarm(graph_ea, pop_size=EA_POP, mutation_rate=0.2, tournament_k=2)
+    t0 = time.time()
+    best_individual, gen_bests = await ea.optimize(
+        questions=train_q,
+        score_fns=train_s,
+        n_generations=EA_GENS,
+        batch_size=5,
+        verbose=True,
+    )
+    train_time_ea = round(time.time() - t0, 1)
+
+    ea._apply(best_individual)
+    print(f"\nBest topology: {best_individual}")
+    for e in graph_ea.edges:
+        print(f"  {repr(e)}  active={e.active}")
+
+    acc = await evaluate(graph_ea, test_q, test_s, label="EA")
+    results["ea"] = {
+        "accuracy": acc,
+        "best_topology": best_individual,
+        "gen_bests": [round(f, 3) for f in gen_bests],
+        "train_time_s": train_time_ea,
+    }
+    print(f"EA accuracy: {acc:.3f}\n")
+
+    # ── Save & print summary ───────────────────────────────────────────────────
     os.makedirs("results", exist_ok=True)
     out_path = "results/mmlu_results.json"
     with open(out_path, "w") as f:
         json.dump(results, f, indent=2)
     print(f"Results saved to {out_path}\n")
 
-    print("=" * 42)
-    print(f"{'Method':<22} {'Accuracy':>8}  {'Time':>8}")
-    print("-" * 42)
+    print("=" * 50)
+    print(f"{'Method':<26} {'Accuracy':>8}  {'Time':>8}")
+    print("-" * 50)
     rows = [
-        ("IO (single agent)",  "io_baseline"),
-        ("Fully Connected",    "fully_connected"),
-        ("Random Connected",   "random_connected"),
-        ("REINFORCE",          "reinforce"),
+        ("IO (single agent)",   "io_baseline"),
+        ("Fully Connected",     "fully_connected"),
+        ("Random Connected",    "random_connected"),
+        ("REINFORCE",           "reinforce"),
+        ("EA",                  "ea"),
     ]
     for label, key in rows:
         r = results[key]
         t = r.get("train_time_s", r.get("time_s", "-"))
-        print(f"{label:<22} {r['accuracy']:>8.3f}  {str(t) + 's':>8}")
-    print("=" * 42)
+        print(f"{label:<26} {r['accuracy']:>8.3f}  {str(t) + 's':>8}")
+    print("=" * 50)
 
 
 if __name__ == "__main__":
