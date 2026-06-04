@@ -1,35 +1,37 @@
 {
   "io_baseline": {
     "accuracy": 0.3333333333333333,
-    "time_s": 9.5
+    "time_s": 24.9,
+    "label": "io_baseline",
+    "prompt_tokens": 565,
+    "completion_tokens": 482,
+    "total_tokens": 1047,
+    "calls": 3
   },
   "fully_connected": {
-    "accuracy": 0.6666666666666666,
-    "time_s": 34.6
+    "accuracy": 0.3333333333333333,
+    "time_s": 23.5,
+    "label": "fully_connected",
+    "prompt_tokens": 1445,
+    "completion_tokens": 477,
+    "total_tokens": 1922,
+    "calls": 9
   },
   "random_connected": {
-    "accuracy": 0.0,
-    "time_s": 36.3
+    "accuracy": 0.6666666666666666,
+    "time_s": 29.4,
+    "label": "random_connected",
+    "prompt_tokens": 1424,
+    "completion_tokens": 620,
+    "total_tokens": 2044,
+    "calls": 9
   },
   "reinforce": {
-    "accuracy": 0.3333333333333333,
+    "accuracy": 0.6666666666666666,
     "train_rewards": [
-      1.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
       0.0,
       0.0,
       1.0,
-      1.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
       0.0,
       0.0,
       1.0,
@@ -37,42 +39,65 @@
       1.0,
       1.0,
       0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      1.0,
+      0.0,
       1.0,
       0.0,
       0.0,
       0.0,
       0.0,
       0.0,
-      1.0
+      0.0,
+      0.0
     ],
-    "train_time_s": 368.7,
+    "train_time_s": 520.8,
     "final_edge_weights": [
-      -0.7857,
-      0.8126
+      0.3554,
+      -0.621
     ],
     "final_edge_probs": [
-      0.0193,
-      0.9831
-    ]
+      0.8553,
+      0.0429
+    ],
+    "label": "reinforce",
+    "prompt_tokens": 14269,
+    "completion_tokens": 12791,
+    "total_tokens": 27060,
+    "calls": 99
   },
   "ea": {
-    "accuracy": 0.3333333333333333,
+    "accuracy": 0.6666666666666666,
     "best_topology": [
-      1,
+      0,
       1
     ],
     "gen_bests": [
-      0.6,
-      0.6,
-      0.6,
+      0.4,
       0.8,
+      0.4,
+      0.6,
       0.6,
       0.4,
       0.4,
-      0.4,
       0.6,
-      0.6
+      0.4,
+      0.4
     ],
-    "train_time_s": 4450.9
+    "train_time_s": 5285.0,
+    "label": "ea",
+    "prompt_tokens": 187391,
+    "completion_tokens": 121439,
+    "total_tokens": 308830,
+    "calls": 1209
   }
 }

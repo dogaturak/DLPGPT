@@ -244,21 +244,24 @@ def _plot(results: dict) -> None:
 
     colors = ["#4C72B0", "#55A868", "#C44E52", "#DD8452", "#8172B2"]
 
-    fig, ax1 = plt.subplots(figsize=(10, 5))
+    fig, ax1 = plt.subplots(figsize=(11, 6))
 
-    x = range(len(names))
+    import numpy as np
+    x = np.arange(len(names))
     bars = ax1.bar(x, tokens, color=colors, alpha=0.75, zorder=2)
-    ax1.set_ylabel("Total Tokens", fontsize=12)
-    ax1.set_xticks(list(x))
+    ax1.set_yscale("log")
+    ax1.set_ylabel("Total Tokens (log scale)", fontsize=12)
+    ax1.set_xticks(x)
     ax1.set_xticklabels(names, rotation=15, ha="right", fontsize=10)
     ax1.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"{int(v):,}"))
     ax1.grid(axis="y", linestyle="--", alpha=0.4, zorder=1)
+    ax1.set_ylim(400, max(tokens) * 4)
 
     # Token labels on bars
     for bar, tok in zip(bars, tokens):
         ax1.text(
             bar.get_x() + bar.get_width() / 2,
-            bar.get_height() + max(tokens) * 0.01,
+            bar.get_height() * 1.5,
             f"{tok:,}",
             ha="center", va="bottom", fontsize=9,
         )
@@ -279,7 +282,7 @@ def _plot(results: dict) -> None:
     ax2.set_ylim(-0.05, 1.15)
     ax2.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"{v:.0%}"))
 
-    plt.title("Accuracy vs Token Consumption by Method", fontsize=14, pad=14)
+    plt.title("Accuracy vs Token Consumption by Method (log scale)", fontsize=14, pad=14)
     fig.tight_layout()
 
     os.makedirs("results", exist_ok=True)
