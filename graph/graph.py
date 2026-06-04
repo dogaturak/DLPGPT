@@ -31,22 +31,35 @@ class Graph:
                 self.nodes.append(edge.target)
 
     def topological_sort(self) -> List[List[Node]]:
-        in_degree: Dict[Node, int] = {node: len(node.predecessors) for node in self.nodes}
-        queue: List[Node] = [n for n in self.nodes if in_degree[n] == 0]
-        layers: List[List[Node]] = []
+        active_predecessors: Dict[Node, set] = {
+            node: set() for node in self.nodes}
+        active_successors: Dict[Node, List[Node]] = {
+            node: [] for node in self.nodes}
+
+        for edge in self.edges:
+            if edge.active:
+                active_predecessors[edge.target].add(edge.source)
+                active_successors[edge.source].append(edge.target)
+
+        in_degree = {
+            node: len(active_predecessors[node]) for node in self.nodes}
+        queue = [n for n in self.nodes if in_degree[n] == 0]
+        layers = []
 
         while queue:
             layers.append(list(queue))
             next_queue = []
             for node in queue:
-                for successor in node.successors:
+                for successor in active_successors[node]:
                     in_degree[successor] -= 1
                     if in_degree[successor] == 0:
                         next_queue.append(successor)
             queue = next_queue
 
-        if sum(len(l) for l in layers) != len(self.nodes):
-            raise ValueError("Graph contains a cycle.")
+        reachable = {node for layer in layers for node in layer}
+        if self.output_node not in reachable:
+            raise ValueError(
+                "Output node is unreachable with current edge configuration.")
 
         return layers
 
@@ -70,12 +83,19 @@ class Graph:
     async def execute(self, inputs: Any, verbose: bool = False, sample: bool = False) -> List[Any]:
         if sample:
             self.sample_edges()
+
+        # Reset all node state before each execution
+        for node in self.nodes:
+            node.inputs = []
+            node.outputs = []
+
         layers = self.topological_sort()
 
         for i, layer in enumerate(layers):
             if i == 0:
                 for node in layer:
-                    node.inputs = inputs if isinstance(inputs, list) else [inputs]
+                    node.inputs = inputs if isinstance(
+                        inputs, list) else [inputs]
             if verbose:
                 print(f"--- Layer {i}: {[repr(n) for n in layer]} ---")
                 for node in layer:

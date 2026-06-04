@@ -19,6 +19,16 @@ RL_STEPS = 30
 LR = 0.1
 EA_GENS = 10
 EA_POP = 8
+random.seed(42)
+
+# N_TOTAL = 220
+# N_TRAIN = 100
+# N_TEST = 100
+# RL_STEPS = 50
+# LR = 0.1
+# EA_GENS = 15
+# EA_POP = 10
+# random.seed(42)
 # ──────────────────────────────────────────────────────────────────────────────
 
 
@@ -48,6 +58,35 @@ def build_swarm_graph() -> Graph:
     )
     graph = Graph(output_node=aggregator)
     for agent in (direct_answer, adversarial):
+        graph.add_edge(Edge(agent, aggregator))
+    return graph
+
+
+def build_collaborative_graph() -> Graph:
+    direct = LLMNode(
+        "You are a knowledgeable expert. Answer the following multiple-choice question. "
+        "Respond with only one letter: A, B, C, or D.",
+        model=MODEL, operation_description="direct",
+    )
+    cot = LLMNode(
+        "You are a knowledgeable expert. Think step by step, then answer the following "
+        "multiple-choice question. End your response with 'Answer: X' where X is A, B, C, or D.",
+        model=MODEL, operation_description="chain_of_thought",
+    )
+    self_consistency = LLMNode(
+        "You are a knowledgeable expert. Consider multiple perspectives, then choose the most "
+        "consistent answer. Respond with only one letter: A, B, C, or D.",
+        model=MODEL, operation_description="self_consistency",
+    )
+    aggregator = CombineAnswerNode(
+        system_prompt=(
+            "Three agents have answered a multiple-choice question, each giving a single letter "
+            "(A, B, C, or D). Choose the majority answer. Output only a single letter: A, B, C, or D."
+        ),
+        model=MODEL, operation_description="aggregator",
+    )
+    graph = Graph(output_node=aggregator)
+    for agent in (direct, cot, self_consistency):
         graph.add_edge(Edge(agent, aggregator))
     return graph
 
@@ -186,6 +225,30 @@ async def main():
         "train_time_s": train_time_ea,
     }
     print(f"EA accuracy: {acc:.3f}\n")
+
+    # ── EA on collaborative graph ──────────────────────────────────────────────
+    print("=== [6/6] EA Optimization (Collaborative) ===")
+    graph_ea_collab = build_collaborative_graph()
+    ea_collab = EASwarm(graph_ea_collab, pop_size=EA_POP,
+                        mutation_rate=0.2, tournament_k=2)
+    t0 = time.time()
+    best_collab, gen_bests_collab = await ea_collab.optimize(
+        questions=train_q,
+        score_fns=train_s,
+        n_generations=EA_GENS,
+        batch_size=10,
+        verbose=True,
+    )
+    train_time_ea_collab = round(time.time() - t0, 1)
+    ea_collab._apply(best_collab)
+    acc = await evaluate(graph_ea_collab, test_q, test_s, label="EA-Collab")
+    results["ea_collaborative"] = {
+        "accuracy": acc,
+        "best_topology": best_collab,
+        "gen_bests": [round(f, 3) for f in gen_bests_collab],
+        "train_time_s": train_time_ea_collab,
+    }
+    print(f"EA (Collaborative) accuracy: {acc:.3f}\n")
 
     # ── Save & print summary ───────────────────────────────────────────────────
     os.makedirs("results", exist_ok=True)
