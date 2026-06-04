@@ -11,14 +11,14 @@ from swarm.swarm import Swarm
 from swarm.ea_swarm import EASwarm
 
 # ── Config ─────────────────────────────────────────────────────────────────────
-MODEL     = "llama3.1:8b"
-N_TOTAL   = 60
-N_TRAIN   = 30
-N_TEST    = 3
-RL_STEPS  = 30
-LR        = 0.1
-EA_GENS   = 10
-EA_POP    = 8
+MODEL = "llama3.1"
+N_TOTAL = 60
+N_TRAIN = 30
+N_TEST = 3
+RL_STEPS = 30
+LR = 0.1
+EA_GENS = 10
+EA_POP = 8
 # ──────────────────────────────────────────────────────────────────────────────
 
 
@@ -63,7 +63,8 @@ async def evaluate(
         result = await graph.execute(q, sample=False)
         correct += sfn(result)
         if (i + 1) % 10 == 0 or (i + 1) == len(questions):
-            print(f"  [{label}] {i + 1}/{len(questions)}  acc={correct / (i + 1):.3f}")
+            print(
+                f"  [{label}] {i + 1}/{len(questions)}  acc={correct / (i + 1):.3f}")
     return correct / len(questions)
 
 
@@ -72,11 +73,11 @@ async def main():
     items = load_mmlu(subject="all", split="test", n=N_TOTAL)
     pairs = make_questions(items)
     train_pairs = pairs[:N_TRAIN]
-    test_pairs  = pairs[N_TRAIN:N_TRAIN + N_TEST]
+    test_pairs = pairs[N_TRAIN:N_TRAIN + N_TEST]
     train_q = [p[0] for p in train_pairs]
     train_s = [p[1] for p in train_pairs]
-    test_q  = [p[0] for p in test_pairs]
-    test_s  = [p[1] for p in test_pairs]
+    test_q = [p[0] for p in test_pairs]
+    test_s = [p[1] for p in test_pairs]
     print(f"Train: {len(train_q)}  Test: {len(test_q)}\n")
 
     results = {}
@@ -95,7 +96,8 @@ async def main():
     io_graph = Graph(output_node=io_node)
     t0 = time.time()
     acc = await evaluate(io_graph, test_q, test_s, label="IO")
-    results["io_baseline"] = {"accuracy": acc, "time_s": round(time.time() - t0, 1)}
+    results["io_baseline"] = {"accuracy": acc,
+                              "time_s": round(time.time() - t0, 1)}
     print(f"IO accuracy: {acc:.3f}\n")
 
     # ── Baseline 2: Fully connected swarm ─────────────────────────────────────
@@ -105,7 +107,8 @@ async def main():
         e.active = True
     t0 = time.time()
     acc = await evaluate(graph_fc, test_q, test_s, label="FC")
-    results["fully_connected"] = {"accuracy": acc, "time_s": round(time.time() - t0, 1)}
+    results["fully_connected"] = {
+        "accuracy": acc, "time_s": round(time.time() - t0, 1)}
     print(f"Fully connected accuracy: {acc:.3f}\n")
 
     # ── Baseline 3: Randomly connected swarm ──────────────────────────────────
@@ -119,9 +122,11 @@ async def main():
         result = await graph_rand.execute(q, sample=False)
         correct += sfn(result)
         if (i + 1) % 10 == 0 or (i + 1) == len(test_q):
-            print(f"  [Rand] {i + 1}/{len(test_q)}  acc={correct / (i + 1):.3f}")
+            print(
+                f"  [Rand] {i + 1}/{len(test_q)}  acc={correct / (i + 1):.3f}")
     rand_acc = correct / len(test_q)
-    results["random_connected"] = {"accuracy": rand_acc, "time_s": round(time.time() - t0, 1)}
+    results["random_connected"] = {
+        "accuracy": rand_acc, "time_s": round(time.time() - t0, 1)}
     print(f"Random connected accuracy: {rand_acc:.3f}\n")
 
     # ── REINFORCE optimization ─────────────────────────────────────────────────
@@ -141,7 +146,8 @@ async def main():
     print("\nEdge weights after REINFORCE:")
     for e in graph_rl.edges:
         e.active = e.probability > 0.5
-        print(f"  {repr(e)}  w={e.weight:.3f}  p={e.probability:.3f}  active={e.active}")
+        print(
+            f"  {repr(e)}  w={e.weight:.3f}  p={e.probability:.3f}  active={e.active}")
 
     acc = await evaluate(graph_rl, test_q, test_s, label="RL")
     results["reinforce"] = {

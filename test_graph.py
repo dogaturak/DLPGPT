@@ -8,7 +8,7 @@ import pytest
 from graph import CombineAnswerNode, Edge, Graph, LLMNode
 
 
-MODEL = "llama3.1:8b"
+MODEL = "llama3.1"
 
 MCQA_PROMPT = (
     "You are a knowledgeable expert in question answering. I will ask you a question. "

@@ -13,7 +13,7 @@ class LLMNode(Node):
     def __init__(
         self,
         system_prompt: str,
-        model: str = "llama3.2",
+        model: str = "llama3.1",
         operation_description: str = "",
         node_id: Optional[str] = None,
         combine_inputs_as_one: bool = False,

@@ -22,7 +22,7 @@ _COMBINE_PROMPT = (
 
     def __init__(
         self,
-        model: str = "llama3.2",
+        model: str = "llama3.1",
         max_results: int = 3,
         operation_description: str = "WebSearch",
         node_id: Optional[str] = None,
@@ -72,7 +72,7 @@ class FileAnalyzerNode(Node):
     def __init__(
         self,
         task_prompt: str = "Summarize the key information in this document.",
-        model: str = "llama3.2",
+        model: str = "llama3.1",
         max_chars: int = 4000,
         operation_description: str = "FileAnalyzer",
         node_id: Optional[str] = None,
@@ -111,7 +111,7 @@ class CombineAnswerNode(Node):
     def __init__(
         self,
         system_prompt: str = _COMBINE_PROMPT,
-        model: str = "llama3.2",
+        model: str = "llama3.1",
         operation_description: str = "CombineAnswer",
         node_id: Optional[str] = None,
     ):
