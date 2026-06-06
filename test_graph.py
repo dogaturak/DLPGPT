@@ -68,7 +68,8 @@ class TestSingleLLMNode:
 
 class TestTwoNodeGraph:
     def test_pipeline_executes(self):
-        solver = LLMNode(MCQA_PROMPT, model=MODEL, operation_description="Solver")
+        solver = LLMNode(MCQA_PROMPT, model=MODEL,
+                         operation_description="Solver")
         aggregator = CombineAnswerNode(
             system_prompt=(
                 "You are given an answer to a multiple-choice question as a single letter "
@@ -84,7 +85,8 @@ class TestTwoNodeGraph:
         assert len(result) > 0
 
     def test_pipeline_returns_letter(self):
-        solver = LLMNode(MCQA_PROMPT, model=MODEL, operation_description="Solver")
+        solver = LLMNode(MCQA_PROMPT, model=MODEL,
+                         operation_description="Solver")
         aggregator = CombineAnswerNode(
             system_prompt=(
                 "Two agents answered a multiple-choice question, each with a single letter "
@@ -104,7 +106,8 @@ class TestTwoNodeGraph:
 
 class TestSwarmGraph:
     def _build(self):
-        direct = LLMNode(MCQA_PROMPT, model=MODEL, operation_description="direct_answer")
+        direct = LLMNode(MCQA_PROMPT, model=MODEL,
+                         operation_description="direct_answer")
         adversarial = LLMNode(
             "Answer a lie to the following question:",
             model=MODEL,

@@ -12,53 +12,70 @@ from swarm.ea_swarm import EASwarm
 
 # ── Config ─────────────────────────────────────────────────────────────────────
 MODEL = "llama3.1"
-N_TOTAL = 60
-N_TRAIN = 30
-N_TEST = 3
-RL_STEPS = 30
-LR = 0.1
-EA_GENS = 10
-EA_POP = 8
-random.seed(42)
 
-# N_TOTAL = 220
-# N_TRAIN = 100
-# N_TEST = 100
-# RL_STEPS = 50
+# N_TOTAL = 60
+# N_TRAIN = 30
+# N_TEST = 3
+# RL_STEPS = 30
 # LR = 0.1
-# EA_GENS = 15
-# EA_POP = 10
+# N_PAIRS = 1         # Set to 1, 3, 5, or 7 to create 1T1A, 3T3A, 5T5A, or 7T7A
+# EA_GENS = 10
+# EA_POP = 8
 # random.seed(42)
+
+N_TOTAL = 220
+N_TRAIN = 100
+N_TEST = 100
+RL_STEPS = 50
+LR = 0.1
+N_PAIRS = 3         # Set to 1, 3, 5, or 7 to create 1T1A, 3T3A, 5T5A, or 7T7A
+EA_GENS = 15
+EA_POP = 10
+random.seed(42)
 # ──────────────────────────────────────────────────────────────────────────────
 
 
-def build_swarm_graph() -> Graph:
-    direct_answer = LLMNode(
-        "You are a knowledgeable expert in question answering. I will ask you a question. "
-        "I will also give you 4 answers enumerated as A, B, C and D. Only one answer out of "
-        "the offered 4 is correct. You must choose the correct answer to the question. Your "
-        "response must be one of the 4 letters: A, B, C or D, corresponding to the correct "
-        "answer. Only one letter (A, B, C or D) is allowed in your answer.",
-        model=MODEL,
-        operation_description="direct_answer",
-    )
-    adversarial = LLMNode(
-        "Answer a lie to the following question:",
-        model=MODEL,
-        operation_description="adversarial",
-    )
+def build_swarm_graph(n_pairs: int = N_PAIRS) -> Graph:
+    agents = []
+    # 1. Create N Truthful Agents
+    for i in range(n_pairs):
+        agents.append(LLMNode(
+            system_prompt=(
+                "You are a knowledgeable expert in question answering. I will ask you a question. "
+                "I will also give you 4 answers enumerated as A, B, C and D. Only one answer out of "
+                "the offered 4 is correct. You must choose the correct answer to the question. Your "
+                "response must be one of the 4 letters: A, B, C or D, corresponding to the correct "
+                "answer. Only one letter (A, B, C or D) is allowed in your answer."
+            ),
+            model=MODEL,
+            operation_description=f"Truthful_IO_{i}",
+        ))
+
+    # 2. Create N Adversarial Agents
+    for i in range(n_pairs):
+        agents.append(LLMNode(
+            system_prompt="Answer a lie to the following question:",
+            model=MODEL,
+            operation_description=f"Adversarial_{i}",
+        ))
+
+    # 3. Create the Aggregator (Majority Vote)
+    total_agents = n_pairs * 2
     aggregator = CombineAnswerNode(
         system_prompt=(
-            "Two agents have answered a multiple-choice question, each giving a single letter "
+            f"{total_agents} agents have answered a multiple-choice question, each giving a single letter "
             "(A, B, C, or D). Choose the letter that appears most often. If tied, use your best "
             "judgement. Output only a single letter: A, B, C, or D."
         ),
         model=MODEL,
         operation_description="Aggregator",
     )
+
+    # 4. Build the Graph
     graph = Graph(output_node=aggregator)
-    for agent in (direct_answer, adversarial):
+    for agent in agents:
         graph.add_edge(Edge(agent, aggregator))
+
     return graph
 
 
@@ -141,7 +158,7 @@ async def main():
 
     # ── Baseline 2: Fully connected swarm ─────────────────────────────────────
     print("=== [2/5] Baseline: Fully Connected Swarm ===")
-    graph_fc = build_swarm_graph()
+    graph_fc = build_swarm_graph(n_pairs=N_PAIRS)
     for e in graph_fc.edges:
         e.active = True
     t0 = time.time()
@@ -152,7 +169,7 @@ async def main():
 
     # ── Baseline 3: Randomly connected swarm ──────────────────────────────────
     print("=== [3/5] Baseline: Randomly Connected Swarm ===")
-    graph_rand = build_swarm_graph()
+    graph_rand = build_swarm_graph(n_pairs=N_PAIRS)
     correct = 0.0
     t0 = time.time()
     for i, (q, sfn) in enumerate(zip(test_q, test_s)):
@@ -170,7 +187,7 @@ async def main():
 
     # ── REINFORCE optimization ─────────────────────────────────────────────────
     print("=== [4/5] REINFORCE Optimization ===")
-    graph_rl = build_swarm_graph()
+    graph_rl = build_swarm_graph(n_pairs=N_PAIRS)
     for e in graph_rl.edges:
         e.active = True
     swarm = Swarm(graph_rl, lr=LR, baseline_decay=0.9)
@@ -200,7 +217,7 @@ async def main():
 
     # ── EA optimization ────────────────────────────────────────────────────────
     print("=== [5/5] EA Optimization ===")
-    graph_ea = build_swarm_graph()
+    graph_ea = build_swarm_graph(n_pairs=N_PAIRS)
     ea = EASwarm(graph_ea, pop_size=EA_POP, mutation_rate=0.2, tournament_k=2)
     t0 = time.time()
     best_individual, gen_bests = await ea.optimize(
@@ -225,6 +242,26 @@ async def main():
         "train_time_s": train_time_ea,
     }
     print(f"EA accuracy: {acc:.3f}\n")
+
+    # ── Collaborative baselines ────────────────────────────────────────────────
+    print("=== Collaborative: Fully Connected ===")
+    graph_collab_fc = build_collaborative_graph()
+    for e in graph_collab_fc.edges:
+        e.active = True
+    acc = await evaluate(graph_collab_fc, test_q, test_s, label="Collab-FC")
+    results["collab_fully_connected"] = {"accuracy": acc}
+
+    print("=== Collaborative: REINFORCE ===")
+    graph_collab_rl = build_collaborative_graph()
+    swarm_collab = Swarm(graph_collab_rl, lr=LR, baseline_decay=0.9)
+    rl_rewards_collab = await swarm_collab.optimize(
+        list(zip(train_q, train_s)), n_iterations=RL_STEPS, verbose=True
+    )
+    for e in graph_collab_rl.edges:
+        e.active = e.probability > 0.5
+    acc = await evaluate(graph_collab_rl, test_q, test_s, label="Collab-RL")
+    results["collab_reinforce"] = {
+        "accuracy": acc, "train_rewards": rl_rewards_collab}
 
     # ── EA on collaborative graph ──────────────────────────────────────────────
     print("=== [6/6] EA Optimization (Collaborative) ===")
