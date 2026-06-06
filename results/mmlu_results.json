@@ -1,33 +1,47 @@
 {
   "io_baseline": {
     "accuracy": 0.3333333333333333,
-    "time_s": 173.6
+    "time_s": 8.3,
+    "label": "io_baseline",
+    "prompt_tokens": 565,
+    "completion_tokens": 9,
+    "total_tokens": 574,
+    "calls": 3
   },
   "fully_connected": {
-    "accuracy": 0.3,
-    "time_s": 890.5
+    "accuracy": 0.3333333333333333,
+    "time_s": 25.7,
+    "label": "fully_connected",
+    "prompt_tokens": 1396,
+    "completion_tokens": 552,
+    "total_tokens": 1948,
+    "calls": 9
+  },
+  "random_connected": {
+    "accuracy": 0.3333333333333333,
+    "time_s": 26.4,
+    "label": "random_connected",
+    "prompt_tokens": 1266,
+    "completion_tokens": 562,
+    "total_tokens": 1828,
+    "calls": 9
   },
   "reinforce": {
-    "accuracy": 0.3333333333333333,
+    "accuracy": 0.6666666666666666,
     "train_rewards": [
       0.0,
       0.0,
       0.0,
       0.0,
+      0.0,
+      0.0,
       1.0,
+      0.0,
       1.0,
       0.0,
       0.0,
       0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
+      1.0,
       0.0,
       0.0,
       0.0,
@@ -39,18 +53,51 @@
       0.0,
       0.0,
       0.0,
-      1.0
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
     ],
-    "train_time_s": 893.6,
+    "train_time_s": 360.6,
     "final_edge_weights": [
-      0.09,
-      0.1692,
-      -0.1772
+      0.5396,
+      -0.2366
     ],
     "final_edge_probs": [
-      0.5225,
-      0.5422,
-      0.4558
-    ]
+      0.9369,
+      0.2345
+    ],
+    "label": "reinforce",
+    "prompt_tokens": 14350,
+    "completion_tokens": 8689,
+    "total_tokens": 23039,
+    "calls": 99
+  },
+  "ea": {
+    "accuracy": 0.0,
+    "best_topology": [
+      0,
+      1
+    ],
+    "gen_bests": [
+      0.6,
+      0.4,
+      0.4,
+      0.6,
+      0.6,
+      0.4,
+      0.4,
+      0.4,
+      0.4,
+      0.4
+    ],
+    "train_time_s": 5770.2,
+    "label": "ea",
+    "prompt_tokens": 205325,
+    "completion_tokens": 130850,
+    "total_tokens": 336175,
+    "calls": 1209
   }
 }

@@ -2,6 +2,7 @@ import re
 from typing import Any, List, Optional
 from openai import AsyncOpenAI
 from graph.node import Node
+from graph.token_tracker import tracker
 
 _client = AsyncOpenAI(
     base_url="http://localhost:11434/v1",
@@ -13,7 +14,7 @@ class LLMNode(Node):
     def __init__(
         self,
         system_prompt: str,
-        model: str = "llama3.1",
+        model: str = "llama3.2",
         operation_description: str = "",
         node_id: Optional[str] = None,
         combine_inputs_as_one: bool = False,
@@ -36,6 +37,8 @@ class LLMNode(Node):
                 {"role": "user", "content": str(input)},
             ],
         )
+        if response.usage:
+            tracker.record(response.usage.prompt_tokens, response.usage.completion_tokens)
         text = response.choices[0].message.content
         if self.split_output:
             return self._parse_numbered_list(text)
