@@ -54,7 +54,7 @@ rolling_steps = steps[window - 1:]
 
 # ── Figure ────────────────────────────────────────────────────────────────────
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 7), sharex=True)
-fig.suptitle("REINFORCE Edge Optimization on MMLU\n(llama3.2 3B, 30 train steps)", fontsize=13)
+fig.suptitle("REINFORCE Edge Optimization on MMLU\n(llama3.1 , 30 train steps)", fontsize=13)
 
 # ── Panel 1: Reward curve ──────────────────────────────────────────────────────
 ax1.bar(steps, rewards, color="#BBDEFB", edgecolor="none", width=0.7, label="Step reward", zorder=2)

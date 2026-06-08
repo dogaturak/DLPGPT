@@ -5,6 +5,7 @@ import httpx
 from openai import AsyncOpenAI
 
 from graph.node import Node
+from graph.token_tracker import tracker
 
 _client = AsyncOpenAI(
     base_url="http://localhost:11434/v1",
@@ -22,7 +23,7 @@ _COMBINE_PROMPT = (
 
     def __init__(
         self,
-        model: str = "llama3.2",
+        model: str = "llama3.1",
         max_results: int = 3,
         operation_description: str = "WebSearch",
         node_id: Optional[str] = None,
@@ -72,7 +73,7 @@ class FileAnalyzerNode(Node):
     def __init__(
         self,
         task_prompt: str = "Summarize the key information in this document.",
-        model: str = "llama3.2",
+        model: str = "llama3.1",
         max_chars: int = 4000,
         operation_description: str = "FileAnalyzer",
         node_id: Optional[str] = None,
@@ -102,6 +103,8 @@ class FileAnalyzerNode(Node):
                 {"role": "user", "content": content},
             ],
         )
+        if response.usage:
+            tracker.record(response.usage.prompt_tokens, response.usage.completion_tokens)
         return response.choices[0].message.content
 
 
@@ -111,7 +114,7 @@ class CombineAnswerNode(Node):
     def __init__(
         self,
         system_prompt: str = _COMBINE_PROMPT,
-        model: str = "llama3.2",
+        model: str = "llama3.1",
         operation_description: str = "CombineAnswer",
         node_id: Optional[str] = None,
     ):
@@ -135,4 +138,6 @@ class CombineAnswerNode(Node):
                 {"role": "user", "content": combined},
             ],
         )
+        if response.usage:
+            tracker.record(response.usage.prompt_tokens, response.usage.completion_tokens)
         return response.choices[0].message.content
