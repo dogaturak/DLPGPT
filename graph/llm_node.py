@@ -1,4 +1,5 @@
 import re
+import asyncio
 from typing import Any, List, Optional
 
 from openai import AsyncOpenAI
@@ -26,24 +27,31 @@ class LLMNode(Node):
         self.model = model
         self.split_output = split_output
 
-        # ✅ Create client per instance (NO import-time networking)
+        # ✅ Safe client for Ollama (no import-time networking issues)
         self.client = AsyncOpenAI(
             base_url="http://127.0.0.1:11434/v1",
             api_key="ollama",
+            timeout=60.0,
         )
 
     async def _execute(self, input: Any, **kwargs) -> Any:
-        # ✅ Proper async call with timeout to prevent HPC hangs
-        response = await self.client.chat.completions.create(
-            model=self.model,
-            messages=[
-                {"role": "system", "content": self.system_prompt},
-                {"role": "user", "content": str(input)},
-            ],
-            timeout=60,
-        )
+        try:
+            # ✅ Hard timeout to prevent infinite HPC hangs
+            response = await asyncio.wait_for(
+                self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[
+                        {"role": "system", "content": self.system_prompt},
+                        {"role": "user", "content": str(input)},
+                    ],
+                ),
+                timeout=60,
+            )
 
-        # Track token usage if available
+        except asyncio.TimeoutError:
+            raise RuntimeError(
+                "LLM request timed out (Ollama did not respond in 60s)")
+
         if response.usage:
             tracker.record(
                 response.usage.prompt_tokens,
