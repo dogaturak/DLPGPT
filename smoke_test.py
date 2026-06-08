@@ -1,20 +1,26 @@
-import asyncio
-from graph import LLMNode, Graph
+import requests
 
 
-async def smoke_test():
-    print("Testing LLMNode connection to Ollama...")
-    node = LLMNode(
-        system_prompt="Respond with only the word 'pong'.",
-        model="llama3.1:latest",
-        operation_description="SmokeTestNode"
+def smoke_test():
+    print("Testing Ollama connection...")
+
+    payload = {
+        "model": "llama3.1:latest",
+        "messages": [
+            {"role": "system", "content": "Respond with only pong"},
+            {"role": "user", "content": "ping"}
+        ],
+        "stream": False
+    }
+
+    r = requests.post(
+        "http://127.0.0.1:11434/api/chat",
+        json=payload
     )
-    graph = Graph(output_node=node)
-    try:
-        result = await graph.execute("ping", sample=False)
-        print(f"Success! Model responded: {result}")
-    except Exception as e:
-        print(f"Failed! Error: {e}")
+
+    print("Response:")
+    print(r.json()["message"]["content"])
+
 
 if __name__ == "__main__":
-    asyncio.run(smoke_test())
+    smoke_test()
