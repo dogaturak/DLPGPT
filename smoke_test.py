@@ -6,7 +6,7 @@ async def smoke_test():
     print("Testing LLMNode connection to Ollama...")
     node = LLMNode(
         system_prompt="Respond with only the word 'pong'.",
-        model="llama3.1",
+        model="llama3.1:latest",
         operation_description="SmokeTestNode"
     )
     graph = Graph(output_node=node)
