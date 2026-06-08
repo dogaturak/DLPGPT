@@ -47,10 +47,10 @@ class LLMNode(Node):
         try:
             data = await asyncio.wait_for(
                 asyncio.to_thread(self._post, payload),
-                timeout=120
+                timeout=600
             )
         except asyncio.TimeoutError:
-            raise RuntimeError("Ollama request timed out (120s)")
+            raise RuntimeError("Ollama request timed out (600s)")
 
         # ----------------------------
         # SAFE RESPONSE PARSING (FIXED)
@@ -89,7 +89,7 @@ class LLMNode(Node):
             headers={"Content-Type": "application/json"},
         )
 
-        with urllib.request.urlopen(req, timeout=120) as resp:
+        with urllib.request.urlopen(req, timeout=600) as resp:
             return json.loads(resp.read().decode("utf-8"))
 
     @staticmethod
