@@ -1,8 +1,9 @@
-import re
+import json
+import urllib.request
 import asyncio
+import re
 from typing import Any, List, Optional
 
-from openai import AsyncOpenAI
 from graph.node import Node
 from graph.token_tracker import tracker
 
@@ -27,43 +28,43 @@ class LLMNode(Node):
         self.model = model
         self.split_output = split_output
 
-        # ✅ Safe client for Ollama (no import-time networking issues)
-        self.client = AsyncOpenAI(
-            base_url="http://127.0.0.1:11434/v1",
-            api_key="ollama",
-            timeout=60.0,
-        )
+        self.url = "http://127.0.0.1:11434/api/chat"
 
     async def _execute(self, input: Any, **kwargs) -> Any:
-        try:
-            # ✅ Hard timeout to prevent infinite HPC hangs
-            response = await asyncio.wait_for(
-                self.client.chat.completions.create(
-                    model=self.model,
-                    messages=[
-                        {"role": "system", "content": self.system_prompt},
-                        {"role": "user", "content": str(input)},
-                    ],
-                ),
-                timeout=60,
-            )
 
-        except asyncio.TimeoutError:
-            raise RuntimeError(
-                "LLM request timed out (Ollama did not respond in 60s)")
+        payload = {
+            "model": self.model,
+            "messages": [
+                {"role": "system", "content": self.system_prompt},
+                {"role": "user", "content": str(input)},
+            ],
+            "stream": False
+        }
 
-        if response.usage:
+        data = await asyncio.to_thread(self._post, payload)
+
+        text = data["message"]["content"]
+
+        if "prompt_eval_count" in data and "eval_count" in data:
             tracker.record(
-                response.usage.prompt_tokens,
-                response.usage.completion_tokens,
+                data["prompt_eval_count"],
+                data["eval_count"]
             )
-
-        text = response.choices[0].message.content
 
         if self.split_output:
             return self._parse_numbered_list(text)
 
         return text
+
+    def _post(self, payload):
+        req = urllib.request.Request(
+            self.url,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+        )
+
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            return json.loads(resp.read().decode("utf-8"))
 
     @staticmethod
     def _parse_numbered_list(text: str) -> List[str]:
