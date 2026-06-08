@@ -1,22 +1,18 @@
-import requests
+import asyncio
+from graph.llm_node import LLMNode
 
 
-def main():
-    print("Testing Ollama...")
+async def main():
+    node = LLMNode(
+        system_prompt="You are a helpful assistant.",
+        model="llama3.1:latest"
+    )
 
-    url = "http://127.0.0.1:11434/api/generate"
+    print("Testing Ollama connection...")
 
-    payload = {
-        "model": "llama3.1:latest",
-        "prompt": "Say pong and nothing else",
-        "stream": False
-    }
+    result = await node._execute("Say hello in one short sentence.")
 
-    r = requests.post(url, json=payload, timeout=300)
-
-    print("Status:", r.status_code)
-    print("Response:", r.json()["response"])
-
+    print("Response:", result)
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

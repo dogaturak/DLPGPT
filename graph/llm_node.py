@@ -17,6 +17,7 @@ class LLMNode(Node):
         node_id: Optional[str] = None,
         combine_inputs_as_one: bool = False,
         split_output: bool = False,
+        ollama_host: str = "http://127.0.0.1:11434",
     ):
         super().__init__(
             operation_description=operation_description or system_prompt[:40],
@@ -27,9 +28,7 @@ class LLMNode(Node):
         self.system_prompt = system_prompt
         self.model = model
         self.split_output = split_output
-
-        # Ollama running on SAME SLURM node
-        self.url = "http://127.0.0.1:11434/api/chat"
+        self.url = f"{ollama_host}/api/chat"
 
     async def _execute(self, input: Any, **kwargs) -> Any:
         payload = {
@@ -39,48 +38,35 @@ class LLMNode(Node):
                 {"role": "user", "content": str(input)},
             ],
             "stream": False,
-            "options": {
-                "temperature": 0
-            }
+            "options": {"temperature": 0},
         }
 
         try:
             data = await asyncio.wait_for(
                 asyncio.to_thread(self._post, payload),
-                timeout=600
+                timeout=600,
             )
         except asyncio.TimeoutError:
             raise RuntimeError("Ollama request timed out (600s)")
 
-        # ----------------------------
-        # SAFE RESPONSE PARSING (FIXED)
-        # ----------------------------
+        # SAFE PARSING
+        text = ""
         if isinstance(data, dict):
-            message = data.get("message")
-            if isinstance(message, dict):
-                text = message.get("content", "")
-            else:
-                text = ""
-        else:
-            text = str(data)
+            msg = data.get("message", {})
+            if isinstance(msg, dict):
+                text = msg.get("content", "")
 
-        # ----------------------------
-        # TOKEN TRACKING (optional)
-        # ----------------------------
+        # TOKEN TRACKING
         if isinstance(data, dict):
-            if "prompt_eval_count" in data and "eval_count" in data:
+            try:
                 tracker.record(
-                    data["prompt_eval_count"],
-                    data["eval_count"],
+                    data.get("prompt_eval_count", 0),
+                    data.get("eval_count", 0),
                 )
+            except Exception:
+                pass
 
-        # ----------------------------
-        # OUTPUT HANDLING
-        # ----------------------------
-        if self.split_output:
-            return self._parse_numbered_list(text)
-
-        return text
+        return self._parse_numbered_list(text) if self.split_output else text
 
     def _post(self, payload):
         req = urllib.request.Request(
