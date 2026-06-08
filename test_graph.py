@@ -1,5 +1,5 @@
 """
-Integration tests for graph execution with real Ollama (llama3.1:8b).
+Integration tests for graph execution with real Ollama (llama3.1).
 Run with: python -m pytest test_graph.py -v
 """
 import asyncio

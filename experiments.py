@@ -91,7 +91,8 @@ async def evaluate(
         result = await graph.execute(q, sample=False)
         correct += sfn(result)
         if (i + 1) % 10 == 0 or (i + 1) == len(questions):
-            print(f"  [{label}] {i + 1}/{len(questions)}  acc={correct / (i + 1):.3f}")
+            print(
+                f"  [{label}] {i + 1}/{len(questions)}  acc={correct / (i + 1):.3f}")
     return correct / len(questions)
 
 
@@ -100,11 +101,11 @@ async def main():
     items = load_mmlu(subject="all", split="test", n=N_TOTAL)
     pairs = make_questions(items)
     train_pairs = pairs[:N_TRAIN]
-    test_pairs  = pairs[N_TRAIN:N_TRAIN + N_TEST]
+    test_pairs = pairs[N_TRAIN:N_TRAIN + N_TEST]
     train_q = [p[0] for p in train_pairs]
     train_s = [p[1] for p in train_pairs]
-    test_q  = [p[0] for p in test_pairs]
-    test_s  = [p[1] for p in test_pairs]
+    test_q = [p[0] for p in test_pairs]
+    test_s = [p[1] for p in test_pairs]
     print(f"Train: {len(train_q)}  Test: {len(test_q)}\n")
 
     results = {}
@@ -125,7 +126,8 @@ async def main():
     t0 = time.time()
     acc = await evaluate(io_graph, test_q, test_s, label="IO")
     tok = tracker.snapshot("io_baseline")
-    results["io_baseline"] = {"accuracy": acc, "time_s": round(time.time() - t0, 1), **tok}
+    results["io_baseline"] = {"accuracy": acc,
+                              "time_s": round(time.time() - t0, 1), **tok}
     print(f"IO accuracy: {acc:.3f}  tokens: {tok['total_tokens']}\n")
 
     # ── Baseline 2: Fully connected swarm ─────────────────────────────────────
@@ -136,8 +138,10 @@ async def main():
     t0 = time.time()
     acc = await evaluate(graph_fc, test_q, test_s, label="FC")
     tok = tracker.snapshot("fully_connected")
-    results["fully_connected"] = {"accuracy": acc, "time_s": round(time.time() - t0, 1), **tok}
-    print(f"Fully connected accuracy: {acc:.3f}  tokens: {tok['total_tokens']}\n")
+    results["fully_connected"] = {"accuracy": acc,
+                                  "time_s": round(time.time() - t0, 1), **tok}
+    print(
+        f"Fully connected accuracy: {acc:.3f}  tokens: {tok['total_tokens']}\n")
 
     # ── Baseline 3: Randomly connected swarm ──────────────────────────────────
     print("=== [3/5] Baseline: Randomly Connected Swarm ===")
@@ -150,11 +154,14 @@ async def main():
         result = await graph_rand.execute(q, sample=False)
         correct += sfn(result)
         if (i + 1) % 10 == 0 or (i + 1) == len(test_q):
-            print(f"  [Rand] {i + 1}/{len(test_q)}  acc={correct / (i + 1):.3f}")
+            print(
+                f"  [Rand] {i + 1}/{len(test_q)}  acc={correct / (i + 1):.3f}")
     rand_acc = correct / len(test_q)
     tok = tracker.snapshot("random_connected")
-    results["random_connected"] = {"accuracy": rand_acc, "time_s": round(time.time() - t0, 1), **tok}
-    print(f"Random connected accuracy: {rand_acc:.3f}  tokens: {tok['total_tokens']}\n")
+    results["random_connected"] = {
+        "accuracy": rand_acc, "time_s": round(time.time() - t0, 1), **tok}
+    print(
+        f"Random connected accuracy: {rand_acc:.3f}  tokens: {tok['total_tokens']}\n")
 
     # ── REINFORCE optimization ─────────────────────────────────────────────────
     print("=== [4/5] REINFORCE Optimization ===")
@@ -173,7 +180,8 @@ async def main():
     print("\nEdge weights after REINFORCE:")
     for e in graph_rl.edges:
         e.active = e.probability > 0.5
-        print(f"  {repr(e)}  w={e.weight:.3f}  p={e.probability:.3f}  active={e.active}")
+        print(
+            f"  {repr(e)}  w={e.weight:.3f}  p={e.probability:.3f}  active={e.active}")
 
     acc = await evaluate(graph_rl, test_q, test_s, label="RL")
     tok = tracker.snapshot("reinforce")
@@ -282,7 +290,8 @@ async def main():
     for label, key in rows:
         r = results[key]
         t = r.get("train_time_s", r.get("time_s", "-"))
-        print(f"{label:<26} {r['accuracy']:>8.3f}  {r['total_tokens']:>13,}  {str(t) + 's':>8}")
+        print(
+            f"{label:<26} {r['accuracy']:>8.3f}  {r['total_tokens']:>13,}  {str(t) + 's':>8}")
     print("=" * 70)
 
     # ── Plot ───────────────────────────────────────────────────────────────────
@@ -305,9 +314,9 @@ def _plot(results: dict) -> None:
         ("EA",                 "ea"),
     ]
 
-    names      = [l for l, _ in labels]
-    accuracies = [results[k]["accuracy"]     for _, k in labels]
-    tokens     = [results[k]["total_tokens"] for _, k in labels]
+    names = [l for l, _ in labels]
+    accuracies = [results[k]["accuracy"] for _, k in labels]
+    tokens = [results[k]["total_tokens"] for _, k in labels]
 
     colors = ["#4C72B0", "#55A868", "#C44E52", "#DD8452", "#8172B2"]
 
@@ -320,7 +329,8 @@ def _plot(results: dict) -> None:
     ax1.set_ylabel("Total Tokens (log scale)", fontsize=12)
     ax1.set_xticks(x)
     ax1.set_xticklabels(names, rotation=15, ha="right", fontsize=10)
-    ax1.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"{int(v):,}"))
+    ax1.yaxis.set_major_formatter(
+        mticker.FuncFormatter(lambda v, _: f"{int(v):,}"))
     ax1.grid(axis="y", linestyle="--", alpha=0.4, zorder=1)
     ax1.set_ylim(400, max(tokens) * 4)
 
@@ -347,9 +357,11 @@ def _plot(results: dict) -> None:
         )
     ax2.set_ylabel("Accuracy", fontsize=12)
     ax2.set_ylim(-0.05, 1.15)
-    ax2.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"{v:.0%}"))
+    ax2.yaxis.set_major_formatter(
+        mticker.FuncFormatter(lambda v, _: f"{v:.0%}"))
 
-    plt.title("Accuracy vs Token Consumption by Method (log scale)", fontsize=14, pad=14)
+    plt.title("Accuracy vs Token Consumption by Method (log scale)",
+              fontsize=14, pad=14)
     fig.tight_layout()
 
     os.makedirs("results", exist_ok=True)
