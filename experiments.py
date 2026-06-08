@@ -226,19 +226,21 @@ async def main():
     print(f"EA accuracy: {acc:.3f}  tokens: {tok['total_tokens']}\n")
 
     # ── Collaborative baselines ────────────────────────────────────────────────
-    print("=== Collaborative: Fully Connected ===")
-    graph_collab_fc = build_collaborative_graph()
-    for e in graph_collab_fc.edges:
-        e.active = True
-    acc = await evaluate(graph_collab_fc, test_q, test_s, label="Collab-FC")
-    results["collab_fully_connected"] = {"accuracy": acc}
+    #print("=== Collaborative: Fully Connected ===")
+    #graph_collab_fc = build_collaborative_graph()
+    #for e in graph_collab_fc.edges:
+    #    e.active = True
+    #acc = await evaluate(graph_collab_fc, test_q, test_s, label="Collab-FC")
+    #results["collab_fully_connected"] = {"accuracy": acc}
+  
 
-    print("=== Collaborative: REINFORCE ===")
+    """print("=== Collaborative: REINFORCE ===")
     graph_collab_rl = build_collaborative_graph()
     swarm_collab = Swarm(graph_collab_rl, lr=LR, baseline_decay=0.9)
     rl_rewards_collab = await swarm_collab.optimize(
         list(zip(train_q, train_s)), n_iterations=RL_STEPS, verbose=True
     )
+
     for e in graph_collab_rl.edges:
         e.active = e.probability > 0.5
     acc = await evaluate(graph_collab_rl, test_q, test_s, label="Collab-RL")
@@ -267,7 +269,7 @@ async def main():
         "gen_bests": [round(f, 3) for f in gen_bests_collab],
         "train_time_s": train_time_ea_collab,
     }
-    print(f"EA (Collaborative) accuracy: {acc:.3f}\n")
+    print(f"EA (Collaborative) accuracy: {acc:.3f}\n")"""
 
     # ── Save & print summary ───────────────────────────────────────────────────
     os.makedirs("results", exist_ok=True)
