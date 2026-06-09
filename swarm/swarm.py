@@ -49,7 +49,7 @@ class Swarm:
             self._register_edge(edge)
             key = id(edge)
             p = edge.probability
-            g = advantage * (1 - p) if edge.active else -advantage * p
+            g = advantage * (1 - p) / edge.temperature if edge.active else -advantage * p / edge.temperature
 
             self._m[key] = self.beta1 * self._m[key] + (1 - self.beta1) * g
             self._v[key] = self.beta2 * self._v[key] + (1 - self.beta2) * g ** 2
