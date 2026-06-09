@@ -45,7 +45,7 @@ async def main():
 
         print(f"\n  [Truthful raw]    {repr(truthful.outputs[0][:120]) if truthful.outputs else 'NO OUTPUT'}")
         print(f"  [Adversarial raw] {repr(adversarial.outputs[0][:120]) if adversarial.outputs else 'NO OUTPUT'}")
-        print(f"  [Aggregator raw]  {repr(result[0][:120]) if result else 'NO OUTPUT'}")
+        print(f"  [Aggregator]  {repr(result[0][:120]) if result else 'NO OUTPUT'}")
 
         correct = score_fn(result)
         print(f"  [Score] {correct}")
