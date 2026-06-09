@@ -1,4 +1,5 @@
 import asyncio
+import random
 from dataset.mmlu import load_mmlu, make_questions
 from graph import MajorityVoteNode, Edge, Graph, LLMNode
 
@@ -7,7 +8,8 @@ N = 5
 
 
 async def main():
-    items = load_mmlu(subject="all", split="test", n=N)
+    all_items = load_mmlu(subject="all", split="test", n=500)
+    items = random.sample(all_items, N)
     pairs = make_questions(items)
 
     truthful = LLMNode(
