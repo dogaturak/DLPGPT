@@ -24,8 +24,10 @@ async def main():
 
     truthful = LLMNode(
        
+       system_prompt=system_prompt,
         model=MODEL,
         operation_description="Truthful",
+        user_template="{input}.",
     )
     adversarial = LLMNode(
         system_prompt=system_prompt,
