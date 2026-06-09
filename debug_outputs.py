@@ -32,14 +32,16 @@ async def main():
     graph.add_edge(Edge(truthful, aggregator))
     graph.add_edge(Edge(adversarial, aggregator))
 
-    for i, (q, score_fn) in enumerate(pairs):
+    correct_letters = [["A","B","C","D"][item["answer"]] for item in items]
+
+    for i, ((q, score_fn), correct) in enumerate(zip(pairs, correct_letters)):
         for node in graph.nodes:
             node.inputs = []
             node.outputs = []
 
         print(f"\n{'='*60}")
         print(f"Q{i+1}: {q[:100]}...")
-        print(f"Correct: ", end="")
+        print(f"Correct: {correct}")
 
         result = await graph.execute(q, sample=False)
 
