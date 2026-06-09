@@ -18,11 +18,9 @@ def load_mmlu(subject: str = "all", split: str = "test", n: int = 100) -> List[D
 
 def format_question(item: Dict) -> str:
     """Format an MMLU item into a prompt string."""
-    choices = item["choices"]
-    lines = [f"Question: {item['question']}"]
-    for letter, choice in zip("ABCD", choices):
-        lines.append(f"{letter}) {choice}")
-    return "\n".join(lines)
+    q = item["question"]
+    a, b, c, d = item["choices"]
+    return f"{q}. Option A: {a}, Option B: {b}, Option C: {c}, Option D: {d}."
 
 
 def extract_answer(output: str) -> str:

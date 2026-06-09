@@ -18,6 +18,7 @@ class LLMNode(Node):
         combine_inputs_as_one: bool = False,
         split_output: bool = False,
         ollama_host: str = "http://127.0.0.1:11434",
+        user_template: str = "{input}",
     ):
         super().__init__(
             operation_description=operation_description or system_prompt[:40],
@@ -28,6 +29,7 @@ class LLMNode(Node):
         self.system_prompt = system_prompt
         self.model = model
         self.split_output = split_output
+        self.user_template = user_template
         self.url = f"{ollama_host}/api/chat"
 
     async def _execute(self, input: Any, **kwargs) -> Any:
@@ -35,7 +37,7 @@ class LLMNode(Node):
             "model": self.model,
             "messages": [
                 {"role": "system", "content": self.system_prompt},
-                {"role": "user", "content": str(input)},
+                {"role": "user", "content": self.user_template.format(input=str(input))},
             ],
             "stream": False,
             "options": {"temperature": 0},
