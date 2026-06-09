@@ -108,6 +108,7 @@ async def run(n_pairs: int, out_dir: str) -> dict:
     # ── Load data ──────────────────────────────────────────────────────────────
     print("Loading MMLU...", flush=True)
     items = load_mmlu(subject="all", split="test", n=N_TOTAL)
+    random.shuffle(items)
     pairs = make_questions(items)
     train_pairs = pairs[:N_TRAIN]
     test_pairs  = pairs[N_TRAIN:N_TRAIN + N_TEST]

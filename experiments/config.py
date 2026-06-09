@@ -23,7 +23,7 @@ EA_GENS        = 15
 EA_POP         = 10
 EA_MUT_RATE    = 0.2
 EA_TOURNAMENT_K = 2
-EA_BATCH_SIZE  = 5
+EA_BATCH_SIZE  = 20
 
 # ── Swarm configurations to run ────────────────────────────────────────────────
 # Each entry produces one row group in the results tables (Figures 1-3 of report)
