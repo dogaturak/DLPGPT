@@ -12,7 +12,7 @@ from swarm.swarm import Swarm
 from swarm.ea_swarm import EASwarm
 
 # ── Config ─────────────────────────────────────────────────────────────────────
-MODEL = "llama3.2:1b"
+MODEL = "llama3.1:8b"
 
 # N_TOTAL = 60
 # N_TRAIN = 30
