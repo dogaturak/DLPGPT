@@ -24,7 +24,7 @@ if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
 from dataset.mmlu import load_mmlu, make_questions
-from graph import CombineAnswerNode, Edge, Graph, LLMNode
+from graph import MajorityVoteNode, Edge, Graph, LLMNode
 from graph.token_tracker import tracker
 from swarm.swarm import Swarm
 from swarm.ea_swarm import EASwarm
@@ -60,17 +60,7 @@ def build_swarm_graph(n_pairs: int) -> Graph:
             operation_description=f"Adversarial_{i}",
         ))
 
-    total_agents = n_pairs * 2
-    aggregator = CombineAnswerNode(
-        system_prompt=(
-            f"{total_agents} agents have answered a multiple-choice question, "
-            "each giving a single letter (A, B, C, or D). Choose the letter "
-            "that appears most often. If tied, use your best judgement. "
-            "Output only a single letter: A, B, C, or D."
-        ),
-        model=MODEL,
-        operation_description="Aggregator",
-    )
+    aggregator = MajorityVoteNode(operation_description="Aggregator")
 
     graph = Graph(output_node=aggregator)
     for agent in agents:

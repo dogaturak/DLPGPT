@@ -1,6 +1,6 @@
 import asyncio
 from dataset.mmlu import load_mmlu, make_questions
-from graph import CombineAnswerNode, Edge, Graph, LLMNode
+from graph import MajorityVoteNode, Edge, Graph, LLMNode
 
 MODEL = "llama3.1:8b"
 N = 5
@@ -26,15 +26,7 @@ async def main():
         model=MODEL,
         operation_description="Adversarial",
     )
-    aggregator = CombineAnswerNode(
-        system_prompt=(
-            "2 agents have answered a multiple-choice question, each giving a single letter "
-            "(A, B, C, or D). Choose the letter that appears most often. If tied, use your best "
-            "judgement. Output only a single letter: A, B, C, or D."
-        ),
-        model=MODEL,
-        operation_description="Aggregator",
-    )
+    aggregator = MajorityVoteNode(operation_description="Aggregator")
 
     graph = Graph(output_node=aggregator)
     graph.add_edge(Edge(truthful, aggregator))

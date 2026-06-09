@@ -1,4 +1,6 @@
 import pathlib
+import re
+from collections import Counter
 from typing import Any, Optional
 
 import httpx
@@ -141,3 +143,25 @@ class CombineAnswerNode(Node):
         if response.usage:
             tracker.record(response.usage.prompt_tokens, response.usage.completion_tokens)
         return response.choices[0].message.content
+
+
+class MajorityVoteNode(Node):
+    """Deterministic majority vote over predecessor outputs — no LLM call."""
+
+    def __init__(self, operation_description: str = "MajorityVote", node_id: Optional[str] = None):
+        super().__init__(
+            operation_description=operation_description,
+            node_id=node_id,
+            combine_inputs_as_one=True,
+        )
+
+    async def _execute(self, input: Any, **kwargs) -> str:
+        items = input if isinstance(input, list) else [input]
+        answers = []
+        for item in items:
+            m = re.search(r"\b([A-D])\b", str(item).upper())
+            if m:
+                answers.append(m.group(1))
+        if not answers:
+            return ""
+        return Counter(answers).most_common(1)[0][0]
