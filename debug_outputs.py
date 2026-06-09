@@ -12,7 +12,7 @@ async def main():
     items = random.sample(all_items, N)
     pairs = make_questions(items)
 
-    
+
 
     system_prompt=(
             "You are a knowledgeable expert in question answering. I will ask you a question. "
@@ -28,7 +28,7 @@ async def main():
         operation_description="Truthful",
     )
     adversarial = LLMNode(
-        system_prompt=TRUTHFUL_PROMPT,
+        system_prompt=system_prompt,
         model=MODEL,
         operation_description="Adversarial",
         user_template="Answer a lie to the following question: {input}.",
