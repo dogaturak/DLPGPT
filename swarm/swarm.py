@@ -1,4 +1,5 @@
 import math
+import random
 from typing import Any, Callable, Dict, List, Tuple, Union
 from graph.edge import Edge
 from graph.graph import Graph
@@ -61,24 +62,68 @@ class Swarm:
 
         return reward
 
+    async def batch_step(self, questions: List[Any], score_fns: List[Callable]) -> float:
+        grad_accum = {id(e): 0.0 for e in self.graph.edges}
+        total_reward = 0.0
+
+        for question, score_fn in zip(questions, score_fns):
+            result = await self.graph.execute(question, sample=True)
+            reward = score_fn(result)
+            total_reward += reward
+            advantage = reward - self.baseline
+            for edge in self.graph.edges:
+                self._register_edge(edge)
+                key = id(edge)
+                p = edge.probability
+                g = advantage * (1 - p) / edge.temperature if edge.active else -advantage * p / edge.temperature
+                grad_accum[key] += g
+
+        avg_reward = total_reward / len(questions)
+        self.baseline = self.baseline_decay * self.baseline + (1 - self.baseline_decay) * avg_reward
+
+        self._t += 1
+        for edge in self.graph.edges:
+            self._register_edge(edge)
+            key = id(edge)
+            g_avg = grad_accum[key] / len(questions)
+            self._m[key] = self.beta1 * self._m[key] + (1 - self.beta1) * g_avg
+            self._v[key] = self.beta2 * self._v[key] + (1 - self.beta2) * g_avg ** 2
+            m_hat = self._m[key] / (1 - self.beta1 ** self._t)
+            v_hat = self._v[key] / (1 - self.beta2 ** self._t)
+            edge.weight += self.lr * m_hat / (math.sqrt(v_hat) + self.eps)
+
+        return avg_reward
+
     async def optimize(
         self,
         questions: QuestionList,
         score_fn: Callable[[List[Any]], float] = None,
         n_iterations: int = 100,
+        batch_size: int = 1,
         verbose: bool = False,
     ) -> List[float]:
         rewards = []
-        for i, item in enumerate(questions[:n_iterations]):
-            if isinstance(item, tuple):
-                question, q_score_fn = item
+        for i in range(n_iterations):
+            if batch_size == 1:
+                item = questions[i % len(questions)]
+                if isinstance(item, tuple):
+                    question, q_score_fn = item
+                else:
+                    question, q_score_fn = item, score_fn
+                reward = await self.step(question, q_score_fn)
             else:
-                question, q_score_fn = item, score_fn
+                batch = random.sample(questions, min(batch_size, len(questions)))
+                batch_q, batch_s = [], []
+                for item in batch:
+                    if isinstance(item, tuple):
+                        q, s = item
+                    else:
+                        q, s = item, score_fn
+                    batch_q.append(q)
+                    batch_s.append(s)
+                reward = await self.batch_step(batch_q, batch_s)
 
-            reward = await self.step(question, q_score_fn)
             rewards.append(reward)
             if verbose:
-                print(f"Step {i + 1}/{n_iterations}  reward={reward:.2f}  baseline={self.baseline:.2f}")
-                for edge in self.graph.edges:
-                    print(f"  {repr(edge)}")
+                print(f"Step {i + 1}/{n_iterations}  reward={reward:.2f}  baseline={self.baseline:.2f}", flush=True)
         return rewards

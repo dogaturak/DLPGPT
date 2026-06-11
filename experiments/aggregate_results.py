@@ -114,7 +114,7 @@ def plot_figure1(data: dict, out_dir: str) -> None:
     os.makedirs(out_dir, exist_ok=True)
     out = os.path.join(out_dir, "figure1_accuracy_by_swarm.png")
     plt.savefig(out, dpi=150)
-    print(f"Figure 1 saved → {out}")
+    print(f"Figure 1 saved -> {out}")
     plt.close()
 
 
@@ -170,7 +170,7 @@ def plot_figure2(data: dict, out_dir: str) -> None:
     os.makedirs(out_dir, exist_ok=True)
     out = os.path.join(out_dir, "figure2_tokens_vs_accuracy.png")
     plt.savefig(out, dpi=150, bbox_inches="tight")
-    print(f"Figure 2 saved → {out}")
+    print(f"Figure 2 saved -> {out}")
     plt.close()
 
 
@@ -200,7 +200,118 @@ def plot_ea_convergence(data: dict, out_dir: str) -> None:
     os.makedirs(out_dir, exist_ok=True)
     out = os.path.join(out_dir, "ea_convergence.png")
     plt.savefig(out, dpi=150)
-    print(f"EA convergence saved → {out}")
+    print(f"EA convergence saved -> {out}")
+    plt.close()
+
+
+def plot_reinforce_convergence(data: dict, out_dir: str) -> None:
+    """Figure 3: REINFORCE rolling-avg reward per swarm size, all on one chart."""
+    try:
+        import matplotlib.pyplot as plt
+        import numpy as np
+    except ImportError:
+        return
+
+    n_list = sorted(data.keys())
+    fig, ax = plt.subplots(figsize=(9, 5))
+
+    for n in n_list:
+        rewards = data[n].get("reinforce", {}).get("train_rewards", [])
+        if not rewards:
+            continue
+        window = max(3, len(rewards) // 8)
+        rm = np.convolve(rewards, np.ones(window) / window, mode="valid")
+        ax.plot(range(1, len(rm) + 1), rm, marker="o", markersize=4, label=f"{n}T{n}A")
+
+    ax.set_xlabel("Training step", fontsize=12)
+    ax.set_ylabel("Rolling Avg Reward (batch accuracy)", fontsize=12)
+    ax.set_ylim(-0.05, 1.05)
+    ax.legend(fontsize=10)
+    ax.grid(linestyle="--", alpha=0.4)
+    plt.title("REINFORCE Reward Convergence per Swarm Size", fontsize=13)
+    plt.tight_layout()
+
+    os.makedirs(out_dir, exist_ok=True)
+    out = os.path.join(out_dir, "figure3_reinforce_convergence.png")
+    plt.savefig(out, dpi=150)
+    print(f"Figure 3 saved -> {out}")
+    plt.close()
+
+
+def plot_edge_probabilities(data: dict, out_dir: str) -> None:
+    """Figure 4: REINFORCE learned edge probabilities per swarm size."""
+    try:
+        import matplotlib.pyplot as plt
+        import numpy as np
+    except ImportError:
+        return
+
+    n_list = sorted(data.keys())
+    fig, axes = plt.subplots(1, len(n_list), figsize=(4 * len(n_list), 4), squeeze=False)
+
+    for ax, n in zip(axes[0], n_list):
+        probs = data[n].get("reinforce", {}).get("final_edge_probs", [])
+        if not probs:
+            ax.set_title(f"{n}T{n}A — no data")
+            continue
+        x = np.arange(len(probs))
+        colors = ["#C44E52" if p >= 0.5 else "#4C72B0" for p in probs]
+        ax.bar(x, probs, color=colors, alpha=0.85)
+        ax.axhline(0.5, color="black", linestyle="--", linewidth=1, label="threshold=0.5")
+        for xi, p in enumerate(probs):
+            ax.text(xi, p + 0.03, f"{p:.2f}", ha="center", va="bottom", fontsize=7)
+        active = sum(p >= 0.5 for p in probs)
+        ax.set_xlabel("Edge index")
+        ax.set_ylabel("Probability")
+        ax.set_title(f"{n}T{n}A  ({active}/{len(probs)} active)")
+        ax.set_ylim(0, 1.2)
+        ax.set_xticks(x)
+        ax.legend(fontsize=8)
+
+    plt.suptitle("REINFORCE Learned Edge Probabilities\n(red = active ≥ 0.5, blue = pruned)", fontsize=13)
+    plt.tight_layout()
+    os.makedirs(out_dir, exist_ok=True)
+    out = os.path.join(out_dir, "figure4_edge_probabilities.png")
+    plt.savefig(out, dpi=150)
+    print(f"Figure 4 saved -> {out}")
+    plt.close()
+
+
+def plot_token_cost_vs_npairs(data: dict, out_dir: str) -> None:
+    """Figure 5: total token cost per method across swarm sizes (n_pairs)."""
+    try:
+        import matplotlib.pyplot as plt
+        import numpy as np
+    except ImportError:
+        return
+
+    n_list = sorted(data.keys())
+    colors = ["#4C72B0", "#55A868", "#C44E52", "#DD8452", "#8172B2"]
+    markers = ["o", "s", "^", "D", "v"]
+
+    fig, ax = plt.subplots(figsize=(9, 5))
+    for (ml, mk), color, marker in zip(METHODS, colors, markers):
+        tokens = [data[n].get(mk, {}).get("total_tokens", 0) for n in n_list]
+        ax.plot(n_list, tokens, marker=marker, color=color, linewidth=2,
+                markersize=7, label=ml)
+        for n, t in zip(n_list, tokens):
+            ax.annotate(f"{t:,}", (n, t), textcoords="offset points",
+                        xytext=(5, 4), fontsize=7, color=color)
+
+    ax.set_xticks(n_list)
+    ax.set_xticklabels([f"{n}T{n}A" for n in n_list], fontsize=11)
+    ax.set_yscale("log")
+    ax.set_ylabel("Total Tokens (log scale)", fontsize=12)
+    ax.set_xlabel("Swarm Configuration", fontsize=12)
+    ax.legend(fontsize=10)
+    ax.grid(linestyle="--", alpha=0.4)
+    plt.title("Token Cost Scaling per Method across Swarm Sizes", fontsize=13)
+    plt.tight_layout()
+
+    os.makedirs(out_dir, exist_ok=True)
+    out = os.path.join(out_dir, "figure5_token_cost_vs_npairs.png")
+    plt.savefig(out, dpi=150)
+    print(f"Figure 5 saved -> {out}")
     plt.close()
 
 
@@ -219,6 +330,9 @@ def main():
     plot_figure1(data, args.out_dir)
     plot_figure2(data, args.out_dir)
     plot_ea_convergence(data, args.out_dir)
+    plot_reinforce_convergence(data, args.out_dir)
+    plot_edge_probabilities(data, args.out_dir)
+    plot_token_cost_vs_npairs(data, args.out_dir)
     print("\nDone.")
 
 

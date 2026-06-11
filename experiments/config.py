@@ -14,13 +14,14 @@ N_TEST    = 100    # test split (used for final evaluation)
 SEED      = 42
 
 # ── REINFORCE hyperparameters ──────────────────────────────────────────────────
-RL_STEPS       = 50
+RL_STEPS       = 200
+RL_BATCH_SIZE  = 4
 LR             = 0.1
 BASELINE_DECAY = 0.9
 
 # ── EA hyperparameters ─────────────────────────────────────────────────────────
-EA_GENS        = 15
-EA_POP         = 10
+EA_GENS        = 30
+EA_POP         = 15
 EA_MUT_RATE    = 0.2
 EA_TOURNAMENT_K = 2
 EA_BATCH_SIZE  = 20

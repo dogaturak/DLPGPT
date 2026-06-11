@@ -30,7 +30,7 @@ from swarm.swarm import Swarm
 from swarm.ea_swarm import EASwarm
 from experiments.config import (
     MODEL, N_TOTAL, N_TRAIN, N_TEST, SEED,
-    RL_STEPS, LR, BASELINE_DECAY,
+    RL_STEPS, RL_BATCH_SIZE, LR, BASELINE_DECAY,
     EA_GENS, EA_POP, EA_MUT_RATE, EA_TOURNAMENT_K, EA_BATCH_SIZE,
 )
 
@@ -190,6 +190,7 @@ async def run(n_pairs: int, out_dir: str) -> dict:
     rl_rewards = await swarm.optimize(
         list(zip(train_q, train_s)),
         n_iterations=RL_STEPS,
+        batch_size=RL_BATCH_SIZE,
         verbose=True,
     )
     train_time_rl = round(time.time() - t0, 1)

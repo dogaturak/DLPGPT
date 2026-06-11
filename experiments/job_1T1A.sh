@@ -2,7 +2,7 @@
 #SBATCH --job-name=gptswarm_1T1A
 #SBATCH --output=logs/job_1T1A_%j.out
 #SBATCH --error=logs/job_1T1A_%j.err
-#SBATCH --time=08:00:00
+#SBATCH --time=06:00:00
 #SBATCH --partition=gpumedium
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
