@@ -1,0 +1,16 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) 2023.01   2) StdEnv
+
+The following have been reloaded with a version change:
+  1) GCCcore/12.3.0 => GCCcore/13.3.0
+
+Error: listen tcp 127.0.0.1:11434: bind: address already in use
+/home5/s6426549/DLPGPT/graph/node.py:88: UserWarning: Node LLMNode failed: Ollama request timed out (600s)
+  warnings.warn(f"Node {self.node_name} failed: {result}")
+/home5/s6426549/DLPGPT/graph/node.py:88: UserWarning: Node LLMNode failed: Remote end closed connection without response
+  warnings.warn(f"Node {self.node_name} failed: {result}")
+/home5/s6426549/DLPGPT/graph/node.py:88: UserWarning: Node LLMNode failed: <urlopen error [Errno 111] Connection refused>
+  warnings.warn(f"Node {self.node_name} failed: {result}")
+/var/spool/slurmd/job29433051/slurm_script: line 32: kill: (2432948) - No such process

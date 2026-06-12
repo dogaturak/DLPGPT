@@ -219,9 +219,12 @@ def plot_reinforce_convergence(data: dict, out_dir: str) -> None:
         rewards = data[n].get("reinforce", {}).get("train_rewards", [])
         if not rewards:
             continue
-        window = max(3, len(rewards) // 8)
+        window = max(5, len(rewards) // 5)
         rm = np.convolve(rewards, np.ones(window) / window, mode="valid")
-        ax.plot(range(1, len(rm) + 1), rm, marker="o", markersize=4, label=f"{n}T{n}A")
+        x_steps = range(window, len(rewards) + 1)
+        styles = {1: "-", 3: "--", 5: "-.", 7: ":"}
+        ax.plot(x_steps, rm, marker="o", markersize=4, label=f"{n}T{n}A",
+                alpha=0.9, linestyle=styles.get(n, "-"), linewidth=2)
 
     ax.set_xlabel("Training step", fontsize=12)
     ax.set_ylabel("Rolling Avg Reward (batch accuracy)", fontsize=12)

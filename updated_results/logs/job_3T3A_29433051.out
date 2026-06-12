@@ -1,0 +1,514 @@
+Job started: Thu Jun 11 18:44:16 CEST 2026
+Running 3T3A experiment...
+
+======================================================================
+  GPTSwarm experiment  —  3T3A  (3 truthful + 3 adversarial agents)
+======================================================================
+
+Loading MMLU...
+Train: 100  Test: 100
+
+=== [1/5] Baseline: Single IO Agent (3T3A) ===
+  [IO] 10/100  acc=0.500
+  [IO] 20/100  acc=0.550
+  [IO] 30/100  acc=0.533
+  [IO] 40/100  acc=0.575
+  [IO] 50/100  acc=0.540
+  [IO] 60/100  acc=0.517
+  [IO] 70/100  acc=0.500
+  [IO] 80/100  acc=0.475
+  [IO] 90/100  acc=0.478
+  [IO] 100/100  acc=0.490
+IO accuracy: 0.490  tokens: 20640
+
+=== [2/5] Baseline: Fully Connected Swarm (3T3A) ===
+  [FC] 10/100  acc=0.500
+  [FC] 20/100  acc=0.550
+  [FC] 30/100  acc=0.533
+  [FC] 40/100  acc=0.575
+  [FC] 50/100  acc=0.540
+  [FC] 60/100  acc=0.533
+  [FC] 70/100  acc=0.514
+  [FC] 80/100  acc=0.487
+  [FC] 90/100  acc=0.489
+  [FC] 100/100  acc=0.500
+Fully connected accuracy: 0.500  tokens: 149757
+
+=== [3/5] Baseline: Randomly Connected Swarm (3T3A) ===
+  [Rand] 10/100  acc=0.400
+  [Rand] 20/100  acc=0.350
+  [Rand] 30/100  acc=0.333
+  [Rand] 40/100  acc=0.350
+  [Rand] 50/100  acc=0.320
+  [Rand] 60/100  acc=0.333
+  [Rand] 70/100  acc=0.343
+  [Rand] 80/100  acc=0.338
+  [Rand] 90/100  acc=0.333
+  [Rand] 100/100  acc=0.340
+Random connected accuracy: 0.340  tokens: 274725
+
+=== [4/5] REINFORCE Optimization (3T3A) ===
+Step 1/50  reward=0.00  baseline=0.00
+  Edge(049e6951 -> a4fe82bf, p=0.50)
+  Edge(ee3ce289 -> a4fe82bf, p=0.50)
+  Edge(aef4abe4 -> a4fe82bf, p=0.50)
+  Edge(78ea0f2c -> a4fe82bf, p=0.50)
+  Edge(8e589200 -> a4fe82bf, p=0.50)
+  Edge(3b18b076 -> a4fe82bf, p=0.50)
+Step 2/50  reward=0.00  baseline=0.00
+  Edge(049e6951 -> a4fe82bf, p=0.50)
+  Edge(ee3ce289 -> a4fe82bf, p=0.50)
+  Edge(aef4abe4 -> a4fe82bf, p=0.50)
+  Edge(78ea0f2c -> a4fe82bf, p=0.50)
+  Edge(8e589200 -> a4fe82bf, p=0.50)
+  Edge(3b18b076 -> a4fe82bf, p=0.50)
+Step 3/50  reward=0.00  baseline=0.00
+  Edge(049e6951 -> a4fe82bf, p=0.50)
+  Edge(ee3ce289 -> a4fe82bf, p=0.50)
+  Edge(aef4abe4 -> a4fe82bf, p=0.50)
+  Edge(78ea0f2c -> a4fe82bf, p=0.50)
+  Edge(8e589200 -> a4fe82bf, p=0.50)
+  Edge(3b18b076 -> a4fe82bf, p=0.50)
+Step 4/50  reward=0.00  baseline=0.00
+  Edge(049e6951 -> a4fe82bf, p=0.50)
+  Edge(ee3ce289 -> a4fe82bf, p=0.50)
+  Edge(aef4abe4 -> a4fe82bf, p=0.50)
+  Edge(78ea0f2c -> a4fe82bf, p=0.50)
+  Edge(8e589200 -> a4fe82bf, p=0.50)
+  Edge(3b18b076 -> a4fe82bf, p=0.50)
+Step 5/50  reward=0.00  baseline=0.00
+  Edge(049e6951 -> a4fe82bf, p=0.50)
+  Edge(ee3ce289 -> a4fe82bf, p=0.50)
+  Edge(aef4abe4 -> a4fe82bf, p=0.50)
+  Edge(78ea0f2c -> a4fe82bf, p=0.50)
+  Edge(8e589200 -> a4fe82bf, p=0.50)
+  Edge(3b18b076 -> a4fe82bf, p=0.50)
+Step 6/50  reward=1.00  baseline=0.10
+  Edge(049e6951 -> a4fe82bf, p=0.56)
+  Edge(ee3ce289 -> a4fe82bf, p=0.56)
+  Edge(aef4abe4 -> a4fe82bf, p=0.44)
+  Edge(78ea0f2c -> a4fe82bf, p=0.44)
+  Edge(8e589200 -> a4fe82bf, p=0.56)
+  Edge(3b18b076 -> a4fe82bf, p=0.56)
+Step 7/50  reward=1.00  baseline=0.19
+  Edge(049e6951 -> a4fe82bf, p=0.56)
+  Edge(ee3ce289 -> a4fe82bf, p=0.56)
+  Edge(aef4abe4 -> a4fe82bf, p=0.44)
+  Edge(78ea0f2c -> a4fe82bf, p=0.36)
+  Edge(8e589200 -> a4fe82bf, p=0.64)
+  Edge(3b18b076 -> a4fe82bf, p=0.64)
+Step 8/50  reward=0.00  baseline=0.17
+  Edge(049e6951 -> a4fe82bf, p=0.56)
+  Edge(ee3ce289 -> a4fe82bf, p=0.56)
+  Edge(aef4abe4 -> a4fe82bf, p=0.45)
+  Edge(78ea0f2c -> a4fe82bf, p=0.30)
+  Edge(8e589200 -> a4fe82bf, p=0.72)
+  Edge(3b18b076 -> a4fe82bf, p=0.70)
+Step 9/50  reward=1.00  baseline=0.25
+  Edge(049e6951 -> a4fe82bf, p=0.59)
+  Edge(ee3ce289 -> a4fe82bf, p=0.59)
+  Edge(aef4abe4 -> a4fe82bf, p=0.43)
+  Edge(78ea0f2c -> a4fe82bf, p=0.24)
+  Edge(8e589200 -> a4fe82bf, p=0.73)
+  Edge(3b18b076 -> a4fe82bf, p=0.71)
+Step 10/50  reward=0.00  baseline=0.23
+  Edge(049e6951 -> a4fe82bf, p=0.63)
+  Edge(ee3ce289 -> a4fe82bf, p=0.61)
+  Edge(aef4abe4 -> a4fe82bf, p=0.41)
+  Edge(78ea0f2c -> a4fe82bf, p=0.19)
+  Edge(8e589200 -> a4fe82bf, p=0.73)
+  Edge(3b18b076 -> a4fe82bf, p=0.70)
+Step 11/50  reward=0.00  baseline=0.21
+  Edge(049e6951 -> a4fe82bf, p=0.66)
+  Edge(ee3ce289 -> a4fe82bf, p=0.64)
+  Edge(aef4abe4 -> a4fe82bf, p=0.37)
+  Edge(78ea0f2c -> a4fe82bf, p=0.16)
+  Edge(8e589200 -> a4fe82bf, p=0.75)
+  Edge(3b18b076 -> a4fe82bf, p=0.70)
+Step 12/50  reward=0.00  baseline=0.19
+  Edge(049e6951 -> a4fe82bf, p=0.67)
+  Edge(ee3ce289 -> a4fe82bf, p=0.67)
+  Edge(aef4abe4 -> a4fe82bf, p=0.34)
+  Edge(78ea0f2c -> a4fe82bf, p=0.14)
+  Edge(8e589200 -> a4fe82bf, p=0.76)
+  Edge(3b18b076 -> a4fe82bf, p=0.69)
+Step 13/50  reward=1.00  baseline=0.27
+  Edge(049e6951 -> a4fe82bf, p=0.66)
+  Edge(ee3ce289 -> a4fe82bf, p=0.71)
+  Edge(aef4abe4 -> a4fe82bf, p=0.29)
+  Edge(78ea0f2c -> a4fe82bf, p=0.15)
+  Edge(8e589200 -> a4fe82bf, p=0.77)
+  Edge(3b18b076 -> a4fe82bf, p=0.65)
+Step 14/50  reward=1.00  baseline=0.34
+  Edge(049e6951 -> a4fe82bf, p=0.62)
+  Edge(ee3ce289 -> a4fe82bf, p=0.76)
+  Edge(aef4abe4 -> a4fe82bf, p=0.25)
+  Edge(78ea0f2c -> a4fe82bf, p=0.15)
+  Edge(8e589200 -> a4fe82bf, p=0.80)
+  Edge(3b18b076 -> a4fe82bf, p=0.63)
+Step 15/50  reward=1.00  baseline=0.41
+  Edge(049e6951 -> a4fe82bf, p=0.60)
+  Edge(ee3ce289 -> a4fe82bf, p=0.80)
+  Edge(aef4abe4 -> a4fe82bf, p=0.20)
+  Edge(78ea0f2c -> a4fe82bf, p=0.15)
+  Edge(8e589200 -> a4fe82bf, p=0.79)
+  Edge(3b18b076 -> a4fe82bf, p=0.63)
+Step 16/50  reward=0.00  baseline=0.37
+  Edge(049e6951 -> a4fe82bf, p=0.59)
+  Edge(ee3ce289 -> a4fe82bf, p=0.83)
+  Edge(aef4abe4 -> a4fe82bf, p=0.17)
+  Edge(78ea0f2c -> a4fe82bf, p=0.15)
+  Edge(8e589200 -> a4fe82bf, p=0.79)
+  Edge(3b18b076 -> a4fe82bf, p=0.64)
+Step 17/50  reward=1.00  baseline=0.43
+  Edge(049e6951 -> a4fe82bf, p=0.60)
+  Edge(ee3ce289 -> a4fe82bf, p=0.85)
+  Edge(aef4abe4 -> a4fe82bf, p=0.16)
+  Edge(78ea0f2c -> a4fe82bf, p=0.15)
+  Edge(8e589200 -> a4fe82bf, p=0.79)
+  Edge(3b18b076 -> a4fe82bf, p=0.62)
+Step 18/50  reward=0.00  baseline=0.39
+  Edge(049e6951 -> a4fe82bf, p=0.59)
+  Edge(ee3ce289 -> a4fe82bf, p=0.87)
+  Edge(aef4abe4 -> a4fe82bf, p=0.16)
+  Edge(78ea0f2c -> a4fe82bf, p=0.14)
+  Edge(8e589200 -> a4fe82bf, p=0.78)
+  Edge(3b18b076 -> a4fe82bf, p=0.60)
+Step 19/50  reward=0.00  baseline=0.35
+  Edge(049e6951 -> a4fe82bf, p=0.58)
+  Edge(ee3ce289 -> a4fe82bf, p=0.89)
+  Edge(aef4abe4 -> a4fe82bf, p=0.16)
+  Edge(78ea0f2c -> a4fe82bf, p=0.13)
+  Edge(8e589200 -> a4fe82bf, p=0.78)
+  Edge(3b18b076 -> a4fe82bf, p=0.58)
+Step 20/50  reward=1.00  baseline=0.41
+  Edge(049e6951 -> a4fe82bf, p=0.59)
+  Edge(ee3ce289 -> a4fe82bf, p=0.90)
+  Edge(aef4abe4 -> a4fe82bf, p=0.15)
+  Edge(78ea0f2c -> a4fe82bf, p=0.12)
+  Edge(8e589200 -> a4fe82bf, p=0.78)
+  Edge(3b18b076 -> a4fe82bf, p=0.54)
+Step 21/50  reward=0.00  baseline=0.37
+  Edge(049e6951 -> a4fe82bf, p=0.58)
+  Edge(ee3ce289 -> a4fe82bf, p=0.91)
+  Edge(aef4abe4 -> a4fe82bf, p=0.15)
+  Edge(78ea0f2c -> a4fe82bf, p=0.11)
+  Edge(8e589200 -> a4fe82bf, p=0.79)
+  Edge(3b18b076 -> a4fe82bf, p=0.49)
+Step 22/50  reward=0.00  baseline=0.33
+  Edge(049e6951 -> a4fe82bf, p=0.57)
+  Edge(ee3ce289 -> a4fe82bf, p=0.92)
+  Edge(aef4abe4 -> a4fe82bf, p=0.14)
+  Edge(78ea0f2c -> a4fe82bf, p=0.11)
+  Edge(8e589200 -> a4fe82bf, p=0.81)
+  Edge(3b18b076 -> a4fe82bf, p=0.44)
+Step 23/50  reward=0.00  baseline=0.30
+  Edge(049e6951 -> a4fe82bf, p=0.57)
+  Edge(ee3ce289 -> a4fe82bf, p=0.93)
+  Edge(aef4abe4 -> a4fe82bf, p=0.13)
+  Edge(78ea0f2c -> a4fe82bf, p=0.11)
+  Edge(8e589200 -> a4fe82bf, p=0.83)
+  Edge(3b18b076 -> a4fe82bf, p=0.40)
+Step 24/50  reward=1.00  baseline=0.37
+  Edge(049e6951 -> a4fe82bf, p=0.58)
+  Edge(ee3ce289 -> a4fe82bf, p=0.93)
+  Edge(aef4abe4 -> a4fe82bf, p=0.13)
+  Edge(78ea0f2c -> a4fe82bf, p=0.10)
+  Edge(8e589200 -> a4fe82bf, p=0.86)
+  Edge(3b18b076 -> a4fe82bf, p=0.39)
+Step 25/50  reward=1.00  baseline=0.43
+  Edge(049e6951 -> a4fe82bf, p=0.58)
+  Edge(ee3ce289 -> a4fe82bf, p=0.94)
+  Edge(aef4abe4 -> a4fe82bf, p=0.13)
+  Edge(78ea0f2c -> a4fe82bf, p=0.10)
+  Edge(8e589200 -> a4fe82bf, p=0.88)
+  Edge(3b18b076 -> a4fe82bf, p=0.37)
+Step 26/50  reward=1.00  baseline=0.49
+  Edge(049e6951 -> a4fe82bf, p=0.56)
+  Edge(ee3ce289 -> a4fe82bf, p=0.94)
+  Edge(aef4abe4 -> a4fe82bf, p=0.13)
+  Edge(78ea0f2c -> a4fe82bf, p=0.09)
+  Edge(8e589200 -> a4fe82bf, p=0.90)
+  Edge(3b18b076 -> a4fe82bf, p=0.36)
+Step 27/50  reward=1.00  baseline=0.54
+  Edge(049e6951 -> a4fe82bf, p=0.53)
+  Edge(ee3ce289 -> a4fe82bf, p=0.95)
+  Edge(aef4abe4 -> a4fe82bf, p=0.14)
+  Edge(78ea0f2c -> a4fe82bf, p=0.08)
+  Edge(8e589200 -> a4fe82bf, p=0.91)
+  Edge(3b18b076 -> a4fe82bf, p=0.35)
+Step 28/50  reward=0.00  baseline=0.49
+  Edge(049e6951 -> a4fe82bf, p=0.51)
+  Edge(ee3ce289 -> a4fe82bf, p=0.95)
+  Edge(aef4abe4 -> a4fe82bf, p=0.13)
+  Edge(78ea0f2c -> a4fe82bf, p=0.08)
+  Edge(8e589200 -> a4fe82bf, p=0.92)
+  Edge(3b18b076 -> a4fe82bf, p=0.35)
+Step 29/50  reward=0.00  baseline=0.44
+  Edge(049e6951 -> a4fe82bf, p=0.49)
+  Edge(ee3ce289 -> a4fe82bf, p=0.96)
+  Edge(aef4abe4 -> a4fe82bf, p=0.12)
+  Edge(78ea0f2c -> a4fe82bf, p=0.08)
+  Edge(8e589200 -> a4fe82bf, p=0.93)
+  Edge(3b18b076 -> a4fe82bf, p=0.35)
+Step 30/50  reward=0.00  baseline=0.39
+  Edge(049e6951 -> a4fe82bf, p=0.45)
+  Edge(ee3ce289 -> a4fe82bf, p=0.96)
+  Edge(aef4abe4 -> a4fe82bf, p=0.11)
+  Edge(78ea0f2c -> a4fe82bf, p=0.07)
+  Edge(8e589200 -> a4fe82bf, p=0.94)
+  Edge(3b18b076 -> a4fe82bf, p=0.35)
+Step 31/50  reward=1.00  baseline=0.46
+  Edge(049e6951 -> a4fe82bf, p=0.44)
+  Edge(ee3ce289 -> a4fe82bf, p=0.96)
+  Edge(aef4abe4 -> a4fe82bf, p=0.11)
+  Edge(78ea0f2c -> a4fe82bf, p=0.07)
+  Edge(8e589200 -> a4fe82bf, p=0.94)
+  Edge(3b18b076 -> a4fe82bf, p=0.33)
+Step 32/50  reward=0.00  baseline=0.41
+  Edge(049e6951 -> a4fe82bf, p=0.43)
+  Edge(ee3ce289 -> a4fe82bf, p=0.96)
+  Edge(aef4abe4 -> a4fe82bf, p=0.10)
+  Edge(78ea0f2c -> a4fe82bf, p=0.07)
+  Edge(8e589200 -> a4fe82bf, p=0.95)
+  Edge(3b18b076 -> a4fe82bf, p=0.32)
+Step 33/50  reward=0.00  baseline=0.37
+  Edge(049e6951 -> a4fe82bf, p=0.44)
+  Edge(ee3ce289 -> a4fe82bf, p=0.96)
+  Edge(aef4abe4 -> a4fe82bf, p=0.09)
+  Edge(78ea0f2c -> a4fe82bf, p=0.07)
+  Edge(8e589200 -> a4fe82bf, p=0.95)
+  Edge(3b18b076 -> a4fe82bf, p=0.32)
+Step 34/50  reward=0.00  baseline=0.33
+  Edge(049e6951 -> a4fe82bf, p=0.44)
+  Edge(ee3ce289 -> a4fe82bf, p=0.96)
+  Edge(aef4abe4 -> a4fe82bf, p=0.08)
+  Edge(78ea0f2c -> a4fe82bf, p=0.07)
+  Edge(8e589200 -> a4fe82bf, p=0.96)
+  Edge(3b18b076 -> a4fe82bf, p=0.33)
+Step 35/50  reward=1.00  baseline=0.40
+  Edge(049e6951 -> a4fe82bf, p=0.42)
+  Edge(ee3ce289 -> a4fe82bf, p=0.97)
+  Edge(aef4abe4 -> a4fe82bf, p=0.07)
+  Edge(78ea0f2c -> a4fe82bf, p=0.07)
+  Edge(8e589200 -> a4fe82bf, p=0.96)
+  Edge(3b18b076 -> a4fe82bf, p=0.32)
+Step 36/50  reward=1.00  baseline=0.46
+  Edge(049e6951 -> a4fe82bf, p=0.42)
+  Edge(ee3ce289 -> a4fe82bf, p=0.97)
+  Edge(aef4abe4 -> a4fe82bf, p=0.07)
+  Edge(78ea0f2c -> a4fe82bf, p=0.07)
+  Edge(8e589200 -> a4fe82bf, p=0.96)
+  Edge(3b18b076 -> a4fe82bf, p=0.31)
+Step 37/50  reward=0.00  baseline=0.41
+  Edge(049e6951 -> a4fe82bf, p=0.43)
+  Edge(ee3ce289 -> a4fe82bf, p=0.97)
+  Edge(aef4abe4 -> a4fe82bf, p=0.06)
+  Edge(78ea0f2c -> a4fe82bf, p=0.06)
+  Edge(8e589200 -> a4fe82bf, p=0.97)
+  Edge(3b18b076 -> a4fe82bf, p=0.28)
+Step 38/50  reward=0.00  baseline=0.37
+  Edge(049e6951 -> a4fe82bf, p=0.42)
+  Edge(ee3ce289 -> a4fe82bf, p=0.97)
+  Edge(aef4abe4 -> a4fe82bf, p=0.05)
+  Edge(78ea0f2c -> a4fe82bf, p=0.05)
+  Edge(8e589200 -> a4fe82bf, p=0.97)
+  Edge(3b18b076 -> a4fe82bf, p=0.27)
+Step 39/50  reward=1.00  baseline=0.43
+  Edge(049e6951 -> a4fe82bf, p=0.41)
+  Edge(ee3ce289 -> a4fe82bf, p=0.97)
+  Edge(aef4abe4 -> a4fe82bf, p=0.04)
+  Edge(78ea0f2c -> a4fe82bf, p=0.05)
+  Edge(8e589200 -> a4fe82bf, p=0.98)
+  Edge(3b18b076 -> a4fe82bf, p=0.25)
+Step 40/50  reward=0.00  baseline=0.39
+  Edge(049e6951 -> a4fe82bf, p=0.40)
+  Edge(ee3ce289 -> a4fe82bf, p=0.97)
+  Edge(aef4abe4 -> a4fe82bf, p=0.04)
+  Edge(78ea0f2c -> a4fe82bf, p=0.04)
+  Edge(8e589200 -> a4fe82bf, p=0.98)
+  Edge(3b18b076 -> a4fe82bf, p=0.23)
+Step 41/50  reward=1.00  baseline=0.45
+  Edge(049e6951 -> a4fe82bf, p=0.42)
+  Edge(ee3ce289 -> a4fe82bf, p=0.97)
+  Edge(aef4abe4 -> a4fe82bf, p=0.03)
+  Edge(78ea0f2c -> a4fe82bf, p=0.04)
+  Edge(8e589200 -> a4fe82bf, p=0.98)
+  Edge(3b18b076 -> a4fe82bf, p=0.21)
+Step 42/50  reward=1.00  baseline=0.51
+  Edge(049e6951 -> a4fe82bf, p=0.44)
+  Edge(ee3ce289 -> a4fe82bf, p=0.97)
+  Edge(aef4abe4 -> a4fe82bf, p=0.03)
+  Edge(78ea0f2c -> a4fe82bf, p=0.03)
+  Edge(8e589200 -> a4fe82bf, p=0.98)
+  Edge(3b18b076 -> a4fe82bf, p=0.21)
+Step 43/50  reward=0.00  baseline=0.46
+  Edge(049e6951 -> a4fe82bf, p=0.45)
+  Edge(ee3ce289 -> a4fe82bf, p=0.97)
+  Edge(aef4abe4 -> a4fe82bf, p=0.03)
+  Edge(78ea0f2c -> a4fe82bf, p=0.03)
+  Edge(8e589200 -> a4fe82bf, p=0.98)
+  Edge(3b18b076 -> a4fe82bf, p=0.22)
+Step 44/50  reward=0.00  baseline=0.41
+  Edge(049e6951 -> a4fe82bf, p=0.47)
+  Edge(ee3ce289 -> a4fe82bf, p=0.97)
+  Edge(aef4abe4 -> a4fe82bf, p=0.02)
+  Edge(78ea0f2c -> a4fe82bf, p=0.03)
+  Edge(8e589200 -> a4fe82bf, p=0.99)
+  Edge(3b18b076 -> a4fe82bf, p=0.22)
+Step 45/50  reward=0.00  baseline=0.37
+  Edge(049e6951 -> a4fe82bf, p=0.48)
+  Edge(ee3ce289 -> a4fe82bf, p=0.97)
+  Edge(aef4abe4 -> a4fe82bf, p=0.02)
+  Edge(78ea0f2c -> a4fe82bf, p=0.03)
+  Edge(8e589200 -> a4fe82bf, p=0.99)
+  Edge(3b18b076 -> a4fe82bf, p=0.23)
+Step 46/50  reward=0.00  baseline=0.33
+  Edge(049e6951 -> a4fe82bf, p=0.49)
+  Edge(ee3ce289 -> a4fe82bf, p=0.97)
+  Edge(aef4abe4 -> a4fe82bf, p=0.02)
+  Edge(78ea0f2c -> a4fe82bf, p=0.03)
+  Edge(8e589200 -> a4fe82bf, p=0.99)
+  Edge(3b18b076 -> a4fe82bf, p=0.23)
+Step 47/50  reward=0.00  baseline=0.30
+  Edge(049e6951 -> a4fe82bf, p=0.50)
+  Edge(ee3ce289 -> a4fe82bf, p=0.97)
+  Edge(aef4abe4 -> a4fe82bf, p=0.02)
+  Edge(78ea0f2c -> a4fe82bf, p=0.02)
+  Edge(8e589200 -> a4fe82bf, p=0.99)
+  Edge(3b18b076 -> a4fe82bf, p=0.22)
+Step 48/50  reward=1.00  baseline=0.37
+  Edge(049e6951 -> a4fe82bf, p=0.52)
+  Edge(ee3ce289 -> a4fe82bf, p=0.97)
+  Edge(aef4abe4 -> a4fe82bf, p=0.02)
+  Edge(78ea0f2c -> a4fe82bf, p=0.02)
+  Edge(8e589200 -> a4fe82bf, p=0.99)
+  Edge(3b18b076 -> a4fe82bf, p=0.21)
+Step 49/50  reward=0.00  baseline=0.33
+  Edge(049e6951 -> a4fe82bf, p=0.53)
+  Edge(ee3ce289 -> a4fe82bf, p=0.97)
+  Edge(aef4abe4 -> a4fe82bf, p=0.02)
+  Edge(78ea0f2c -> a4fe82bf, p=0.02)
+  Edge(8e589200 -> a4fe82bf, p=0.99)
+  Edge(3b18b076 -> a4fe82bf, p=0.20)
+Step 50/50  reward=0.00  baseline=0.30
+  Edge(049e6951 -> a4fe82bf, p=0.53)
+  Edge(ee3ce289 -> a4fe82bf, p=0.97)
+  Edge(aef4abe4 -> a4fe82bf, p=0.02)
+  Edge(78ea0f2c -> a4fe82bf, p=0.02)
+  Edge(8e589200 -> a4fe82bf, p=0.99)
+  Edge(3b18b076 -> a4fe82bf, p=0.19)
+
+Edge probabilities after REINFORCE:
+  Edge(049e6951 -> a4fe82bf, p=0.53)  w=0.025  p=0.531  active=True
+  Edge(ee3ce289 -> a4fe82bf, p=0.97)  w=0.722  p=0.974  active=True
+  Edge(aef4abe4 -> a4fe82bf, p=0.02)  w=-0.820  p=0.016  active=False
+  Edge(78ea0f2c -> a4fe82bf, p=0.02)  w=-0.821  p=0.016  active=False
+  Edge(8e589200 -> a4fe82bf, p=0.99)  w=0.910  p=0.990  active=True
+  Edge(3b18b076 -> a4fe82bf, p=0.19)  w=-0.289  p=0.191  active=False
+  [RL] 10/100  acc=0.500
+  [RL] 20/100  acc=0.550
+  [RL] 30/100  acc=0.533
+  [RL] 40/100  acc=0.575
+  [RL] 50/100  acc=0.540
+  [RL] 60/100  acc=0.533
+  [RL] 70/100  acc=0.514
+  [RL] 80/100  acc=0.487
+  [RL] 90/100  acc=0.489
+  [RL] 100/100  acc=0.500
+REINFORCE accuracy: 0.500  tokens: 469330
+
+=== [5/5] EA Optimization (3T3A) ===
+Gen 1/15  best=0.70  mean=0.56  topology=[0, 1, 1, 0, 0, 1]
+Gen 2/15  best=0.45  mean=0.37  topology=[0, 1, 1, 1, 1, 1]
+Gen 3/15  best=0.35  mean=0.29  topology=[1, 1, 0, 0, 1, 1]
+Gen 4/15  best=0.30  mean=0.28  topology=[1, 1, 0, 0, 1, 1]
+Gen 5/15  best=0.50  mean=0.40  topology=[1, 1, 0, 0, 1, 1]
+Gen 6/15  best=0.50  mean=0.43  topology=[1, 1, 0, 0, 1, 1]
+Gen 7/15  best=0.55  mean=0.48  topology=[1, 1, 0, 0, 1, 1]
+Gen 8/15  best=0.70  mean=0.57  topology=[1, 1, 0, 0, 1, 1]
+Gen 9/15  best=0.40  mean=0.37  topology=[1, 1, 0, 0, 1, 1]
+Gen 10/15  best=0.35  mean=0.33  topology=[1, 1, 0, 0, 1, 1]
+Gen 11/15  best=0.70  mean=0.58  topology=[1, 0, 1, 0, 1, 0]
+Gen 12/15  best=0.40  mean=0.11  topology=[1, 0, 1, 0, 1, 0]
+Gen 13/15  best=0.00  mean=0.00  topology=[1, 0, 1, 0, 1, 0]
+Gen 14/15  best=0.20  mean=0.02  topology=[0, 0, 0, 0, 0, 0]
+Gen 15/15  best=0.15  mean=0.03  topology=[0, 0, 0, 0, 0, 0]
+
+Best topology: [0, 1, 1, 0, 0, 1]
+  Edge(1675d709 -> 0b494efb, p=0.50)  active=False
+  Edge(11bd2538 -> 0b494efb, p=0.50)  active=True
+  Edge(716fffb9 -> 0b494efb, p=0.50)  active=True
+  Edge(dc396822 -> 0b494efb, p=0.50)  active=False
+  Edge(4193d665 -> 0b494efb, p=0.50)  active=False
+  Edge(92c360e0 -> 0b494efb, p=0.50)  active=True
+  [EA] 10/100  acc=0.000
+  [EA] 20/100  acc=0.000
+  [EA] 30/100  acc=0.000
+  [EA] 40/100  acc=0.000
+  [EA] 50/100  acc=0.000
+  [EA] 60/100  acc=0.000
+  [EA] 70/100  acc=0.000
+  [EA] 80/100  acc=0.000
+  [EA] 90/100  acc=0.000
+  [EA] 100/100  acc=0.000
+EA accuracy: 0.000  tokens: 3428689
+
+Results saved → /home5/s6426549/DLPGPT/results/n_pairs_3/mmlu_results.json
+
+======================================================================
+  SUMMARY  —  3T3A
+Method                     Accuracy   Total Tokens      Time
+----------------------------------------------------------------------
+IO (single agent)             0.490         20,640   1272.9s
+Fully Connected               0.500        149,757    899.8s
+Random Connected              0.340        274,725    826.8s
+REINFORCE                     0.500        469,330    138.6s
+EA                            0.000      3,428,689  14509.9s
+======================================================================
+Job finished: Thu Jun 11 23:54:25 CEST 2026
+
+###############################################################################
+Hábrók Cluster
+Job 29433051 for user s6426549
+Finished at: Thu Jun 11 23:54:29 CEST 2026
+
+Job details:
+============
+
+Job ID                         : 29433051
+Name                           : gptswarm_3T3A
+User                           : s6426549
+Partition                      : gpumedium
+Nodes                          : v100v2gpu10
+Number of Nodes                : 1
+Cores                          : 4
+Number of Tasks                : 1
+State                          : COMPLETED  
+Submit                         : 2026-06-11T18:31:47
+Start                          : 2026-06-11T18:43:55
+End                            : 2026-06-11T23:54:25
+Reserved walltime              : 08:00:00
+Used walltime                  : 05:10:30
+Used CPU time                  : 00:00:22 (Efficiency:  0.03%)
+% User (Computation)           : 79.57%
+% System (I/O)                 : 20.43%
+Total memory reserved          : 16G
+Maximum memory used            : 154.89M
+Requested GPUs                 : 1
+Allocated GPUs                 : v100=1
+Max GPU utilization            : 0%
+Max GPU memory used            : 0.00 
+Hints and tips      :
+ 1) You are running on a GPU node without actually using the GPU, please fix this.
+ *) For more information on these issues see:
+    https://wiki.hpc.rug.nl/habrok/additional_information/job_hints
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Hábrók in your publications:
+
+https://wiki.hpc.rug.nl/habrok/introduction/scientific_output
+
+################################################################################

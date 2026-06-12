@@ -1,0 +1,62 @@
+
+============================================================================================================================
+ACCURACY TABLE
+Swarm           IO (single agent)     Fully Connected       Random Connected      REINFORCE             EA                  
+----------------------------------------------------------------------------------------------------------------------------
+1T1A            0.510                 0.520                 0.370                 0.490                 0.480               
+3T3A            0.490                 0.490                 0.300                 0.500                 0.510               
+5T5A            0.510                 0.500                 0.460                 0.490                 0.500               
+7T7A            0.490                 0.500                 0.410                 0.500                 0.500               
+============================================================================================================================
+
+TOKEN CONSUMPTION TABLE
+Swarm           IO (single agent)     Fully Connected       Random Connected      REINFORCE             EA                  
+----------------------------------------------------------------------------------------------------------------------------
+1T1A            22,353                64,328                105,939               173,830               1,528,122           
+3T3A            21,531                145,553               270,184               460,291               4,596,972           
+5T5A            22,353                234,079               445,707               762,399               7,591,348           
+7T7A            21,531                314,534               612,795               1,053,773             10,772,778          
+============================================================================================================================
+
+Figure 1 saved → /home5/s6426549/DLPGPT/results/figures/figure1_accuracy_by_swarm.png
+Figure 2 saved → /home5/s6426549/DLPGPT/results/figures/figure2_tokens_vs_accuracy.png
+EA convergence saved → /home5/s6426549/DLPGPT/results/figures/ea_convergence.png
+
+Done.
+
+###############################################################################
+Hábrók Cluster
+Job 29397222 for user s6426549
+Finished at: Wed Jun 10 12:53:58 CEST 2026
+
+Job details:
+============
+
+Job ID                         : 29397222
+Name                           : gptswarm_aggregate
+User                           : s6426549
+Partition                      : regularshort
+Nodes                          : omni1
+Number of Nodes                : 1
+Cores                          : 2
+Number of Tasks                : 1
+State                          : COMPLETED  
+Submit                         : 2026-06-10T02:18:43
+Start                          : 2026-06-10T12:53:47
+End                            : 2026-06-10T12:53:53
+Reserved walltime              : 00:10:00
+Used walltime                  : 00:00:06
+Used CPU time                  : 00:00:02 (Efficiency: 18.98%)
+% User (Computation)           : 83.75%
+% System (I/O)                 : 16.25%
+Total memory reserved          : 4G
+Maximum memory used            : 109.50M
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Hábrók in your publications:
+
+https://wiki.hpc.rug.nl/habrok/introduction/scientific_output
+
+################################################################################

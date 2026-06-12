@@ -7,6 +7,8 @@ from typing import Any, List, Optional
 from graph.node import Node
 from graph.token_tracker import tracker
 
+_OLLAMA_SEMAPHORE = asyncio.Semaphore(3)
+
 
 class LLMNode(Node):
     def __init__(
@@ -44,10 +46,11 @@ class LLMNode(Node):
         }
 
         try:
-            data = await asyncio.wait_for(
-                asyncio.to_thread(self._post, payload),
-                timeout=600,
-            )
+            async with _OLLAMA_SEMAPHORE:
+                data = await asyncio.wait_for(
+                    asyncio.to_thread(self._post, payload),
+                    timeout=600,
+                )
         except asyncio.TimeoutError:
             raise RuntimeError("Ollama request timed out (600s)")
 
