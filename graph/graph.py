@@ -122,5 +122,17 @@ class Graph:
                     print(f"  {repr(node)} outputs: {node.outputs}")
 
         if self.output_node is not None:
+            executed = [n for layer in layers for n in layer if n is not self.output_node]
+            failed = [n for n in executed if not n.outputs]
+            if executed and len(failed) == len(executed):
+                raise RuntimeError(
+                    f"All {len(executed)} agents produced no output"
+                    " — Ollama is likely down or unresponsive."
+                )
+            elif executed and len(failed) > 0:
+                print(
+                    f"WARNING: {len(failed)}/{len(executed)} agents produced no output.",
+                    flush=True,
+                )
             return self.output_node.outputs
         return layers[-1][0].outputs if layers else []
