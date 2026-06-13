@@ -1,0 +1,13 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) 2023.01   2) StdEnv
+
+The following have been reloaded with a version change:
+  1) GCCcore/12.3.0 => GCCcore/13.3.0
+
+Error: listen tcp 127.0.0.1:11434: bind: address already in use
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+/home5/s6426549/DLPGPT/graph/node.py:88: UserWarning: Node LLMNode failed: Ollama request timed out (600s)
+  warnings.warn(f"Node {self.node_name} failed: {result}")
+slurmstepd: error: *** JOB 29493167 ON a100gpu5 CANCELLED AT 2026-06-12T16:51:05 DUE TO TIME LIMIT ***

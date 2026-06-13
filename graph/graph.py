@@ -41,9 +41,24 @@ class Graph:
                 active_predecessors[edge.target].add(edge.source)
                 active_successors[edge.source].append(edge.target)
 
+        # Only execute nodes that contribute to the output (backward reachability).
+        # Nodes whose outgoing edges are all inactive are excluded so they don't
+        # make unnecessary LLM calls.
+        if self.output_node is not None:
+            contributing: set = set()
+            stack = [self.output_node]
+            while stack:
+                node = stack.pop()
+                if node not in contributing:
+                    contributing.add(node)
+                    for pred in active_predecessors[node]:
+                        stack.append(pred)
+        else:
+            contributing = set(self.nodes)
+
         in_degree = {
-            node: len(active_predecessors[node]) for node in self.nodes}
-        queue = [n for n in self.nodes if in_degree[n] == 0]
+            node: len(active_predecessors[node]) for node in contributing}
+        queue = [n for n in self.nodes if n in contributing and in_degree[n] == 0]
         layers = []
 
         while queue:
@@ -51,9 +66,10 @@ class Graph:
             next_queue = []
             for node in queue:
                 for successor in active_successors[node]:
-                    in_degree[successor] -= 1
-                    if in_degree[successor] == 0:
-                        next_queue.append(successor)
+                    if successor in contributing:
+                        in_degree[successor] -= 1
+                        if in_degree[successor] == 0:
+                            next_queue.append(successor)
             queue = next_queue
 
         reachable = {node for layer in layers for node in layer}

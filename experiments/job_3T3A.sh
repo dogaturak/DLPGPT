@@ -2,8 +2,8 @@
 #SBATCH --job-name=gptswarm_3T3A
 #SBATCH --output=logs/job_3T3A_%j.out
 #SBATCH --error=logs/job_3T3A_%j.err
-#SBATCH --time=14:00:00
-#SBATCH --partition=gpumedium
+#SBATCH --time=1-12:00:00
+#SBATCH --partition=gpulong
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4

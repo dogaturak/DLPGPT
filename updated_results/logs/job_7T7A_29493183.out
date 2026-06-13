@@ -1,0 +1,395 @@
+Job started: Fri Jun 12 10:57:24 CEST 2026
+Running 7T7A experiment...
+
+======================================================================
+  GPTSwarm experiment  —  7T7A  (7 truthful + 7 adversarial agents)
+======================================================================
+
+Loading MMLU...
+Train: 100  Test: 100
+
+=== [1/5] Baseline: Single IO Agent (7T7A) ===
+  [IO] 10/100  acc=0.500
+  [IO] 20/100  acc=0.550
+  [IO] 30/100  acc=0.533
+  [IO] 40/100  acc=0.600
+  [IO] 50/100  acc=0.560
+  [IO] 60/100  acc=0.533
+  [IO] 70/100  acc=0.500
+  [IO] 80/100  acc=0.475
+  [IO] 90/100  acc=0.478
+  [IO] 100/100  acc=0.490
+IO accuracy: 0.490  tokens: 24340
+
+=== [2/5] Baseline: Fully Connected Swarm (7T7A) ===
+  [FC] 10/100  acc=0.500
+  [FC] 20/100  acc=0.550
+  [FC] 30/100  acc=0.500
+  [FC] 40/100  acc=0.550
+  [FC] 50/100  acc=0.520
+  [FC] 60/100  acc=0.517
+  [FC] 70/100  acc=0.500
+  [FC] 80/100  acc=0.475
+  [FC] 90/100  acc=0.478
+  [FC] 100/100  acc=0.490
+Fully connected accuracy: 0.490  tokens: 316472
+
+=== [3/5] Baseline: Randomly Connected Swarm (7T7A) ===
+  [Rand] 10/100  acc=0.400
+  [Rand] 20/100  acc=0.450
+  [Rand] 30/100  acc=0.400
+  [Rand] 40/100  acc=0.450
+  [Rand] 50/100  acc=0.440
+  [Rand] 60/100  acc=0.400
+  [Rand] 70/100  acc=0.386
+  [Rand] 80/100  acc=0.375
+  [Rand] 90/100  acc=0.378
+  [Rand] 100/100  acc=0.390
+Random connected accuracy: 0.390  tokens: 607655
+
+=== [4/5] REINFORCE Optimization (7T7A) ===
+Step 1/200  reward=0.50  baseline=0.05
+Step 2/200  reward=0.50  baseline=0.09
+Step 3/200  reward=0.25  baseline=0.11
+Step 4/200  reward=0.00  baseline=0.10
+Step 5/200  reward=0.75  baseline=0.16
+Step 6/200  reward=0.50  baseline=0.20
+Step 7/200  reward=0.75  baseline=0.25
+Step 8/200  reward=0.25  baseline=0.25
+Step 9/200  reward=0.25  baseline=0.25
+Step 10/200  reward=0.50  baseline=0.28
+Step 11/200  reward=0.50  baseline=0.30
+Step 12/200  reward=0.25  baseline=0.29
+Step 13/200  reward=0.25  baseline=0.29
+Step 14/200  reward=0.50  baseline=0.31
+Step 15/200  reward=0.50  baseline=0.33
+Step 16/200  reward=0.25  baseline=0.32
+Step 17/200  reward=0.50  baseline=0.34
+Step 18/200  reward=0.00  baseline=0.31
+Step 19/200  reward=0.75  baseline=0.35
+Step 20/200  reward=0.25  baseline=0.34
+Step 21/200  reward=0.75  baseline=0.38
+Step 22/200  reward=0.75  baseline=0.42
+Step 23/200  reward=0.75  baseline=0.45
+Step 24/200  reward=0.75  baseline=0.48
+Step 25/200  reward=0.75  baseline=0.51
+Step 26/200  reward=0.50  baseline=0.51
+Step 27/200  reward=0.50  baseline=0.51
+Step 28/200  reward=0.75  baseline=0.53
+Step 29/200  reward=0.50  baseline=0.53
+Step 30/200  reward=0.50  baseline=0.53
+Step 31/200  reward=0.50  baseline=0.52
+Step 32/200  reward=0.25  baseline=0.50
+Step 33/200  reward=0.50  baseline=0.50
+Step 34/200  reward=0.50  baseline=0.50
+Step 35/200  reward=0.25  baseline=0.47
+Step 36/200  reward=0.25  baseline=0.45
+Step 37/200  reward=0.75  baseline=0.48
+Step 38/200  reward=0.00  baseline=0.43
+Step 39/200  reward=0.25  baseline=0.41
+Step 40/200  reward=0.50  baseline=0.42
+Step 41/200  reward=0.50  baseline=0.43
+Step 42/200  reward=0.50  baseline=0.44
+Step 43/200  reward=0.75  baseline=0.47
+Step 44/200  reward=0.50  baseline=0.47
+Step 45/200  reward=0.25  baseline=0.45
+Step 46/200  reward=0.25  baseline=0.43
+Step 47/200  reward=0.25  baseline=0.41
+Step 48/200  reward=0.50  baseline=0.42
+Step 49/200  reward=0.25  baseline=0.40
+Step 50/200  reward=1.00  baseline=0.46
+Step 51/200  reward=0.75  baseline=0.49
+Step 52/200  reward=0.25  baseline=0.47
+Step 53/200  reward=1.00  baseline=0.52
+Step 54/200  reward=0.50  baseline=0.52
+Step 55/200  reward=0.75  baseline=0.54
+Step 56/200  reward=0.00  baseline=0.49
+Step 57/200  reward=0.50  baseline=0.49
+Step 58/200  reward=0.75  baseline=0.51
+Step 59/200  reward=0.00  baseline=0.46
+Step 60/200  reward=0.25  baseline=0.44
+Step 61/200  reward=0.25  baseline=0.42
+Step 62/200  reward=0.25  baseline=0.41
+Step 63/200  reward=0.25  baseline=0.39
+Step 64/200  reward=0.00  baseline=0.35
+Step 65/200  reward=0.00  baseline=0.32
+Step 66/200  reward=0.50  baseline=0.33
+Step 67/200  reward=0.50  baseline=0.35
+Step 68/200  reward=0.25  baseline=0.34
+Step 69/200  reward=1.00  baseline=0.41
+Step 70/200  reward=0.25  baseline=0.39
+Step 71/200  reward=0.50  baseline=0.40
+Step 72/200  reward=0.50  baseline=0.41
+Step 73/200  reward=0.50  baseline=0.42
+Step 74/200  reward=0.25  baseline=0.40
+Step 75/200  reward=0.00  baseline=0.36
+Step 76/200  reward=0.25  baseline=0.35
+Step 77/200  reward=0.75  baseline=0.39
+Step 78/200  reward=0.25  baseline=0.38
+Step 79/200  reward=0.75  baseline=0.41
+Step 80/200  reward=0.25  baseline=0.40
+Step 81/200  reward=0.50  baseline=0.41
+Step 82/200  reward=0.25  baseline=0.39
+Step 83/200  reward=0.75  baseline=0.43
+Step 84/200  reward=0.25  baseline=0.41
+Step 85/200  reward=0.00  baseline=0.37
+Step 86/200  reward=0.25  baseline=0.36
+Step 87/200  reward=0.00  baseline=0.32
+Step 88/200  reward=0.50  baseline=0.34
+Step 89/200  reward=0.50  baseline=0.36
+Step 90/200  reward=0.75  baseline=0.40
+Step 91/200  reward=0.50  baseline=0.41
+Step 92/200  reward=0.50  baseline=0.42
+Step 93/200  reward=0.50  baseline=0.42
+Step 94/200  reward=0.25  baseline=0.41
+Step 95/200  reward=0.00  baseline=0.37
+Step 96/200  reward=0.50  baseline=0.38
+Step 97/200  reward=0.75  baseline=0.42
+Step 98/200  reward=0.50  baseline=0.42
+Step 99/200  reward=0.50  baseline=0.43
+Step 100/200  reward=0.50  baseline=0.44
+Step 101/200  reward=0.25  baseline=0.42
+Step 102/200  reward=0.75  baseline=0.45
+Step 103/200  reward=0.75  baseline=0.48
+Step 104/200  reward=0.25  baseline=0.46
+Step 105/200  reward=0.50  baseline=0.46
+Step 106/200  reward=1.00  baseline=0.52
+Step 107/200  reward=0.50  baseline=0.52
+Step 108/200  reward=0.75  baseline=0.54
+Step 109/200  reward=0.25  baseline=0.51
+Step 110/200  reward=0.25  baseline=0.48
+Step 111/200  reward=0.75  baseline=0.51
+Step 112/200  reward=0.50  baseline=0.51
+Step 113/200  reward=1.00  baseline=0.56
+Step 114/200  reward=0.25  baseline=0.53
+Step 115/200  reward=0.25  baseline=0.50
+Step 116/200  reward=0.50  baseline=0.50
+Step 117/200  reward=0.75  baseline=0.52
+Step 118/200  reward=0.50  baseline=0.52
+Step 119/200  reward=0.75  baseline=0.55
+Step 120/200  reward=0.25  baseline=0.52
+Step 121/200  reward=0.50  baseline=0.51
+Step 122/200  reward=1.00  baseline=0.56
+Step 123/200  reward=0.75  baseline=0.58
+Step 124/200  reward=0.50  baseline=0.57
+Step 125/200  reward=0.75  baseline=0.59
+Step 126/200  reward=0.50  baseline=0.58
+Step 127/200  reward=0.25  baseline=0.55
+Step 128/200  reward=1.00  baseline=0.59
+Step 129/200  reward=0.25  baseline=0.56
+Step 130/200  reward=0.50  baseline=0.55
+Step 131/200  reward=0.50  baseline=0.55
+Step 132/200  reward=0.50  baseline=0.54
+Step 133/200  reward=0.25  baseline=0.51
+Step 134/200  reward=0.25  baseline=0.49
+Step 135/200  reward=0.75  baseline=0.51
+Step 136/200  reward=0.75  baseline=0.54
+Step 137/200  reward=0.25  baseline=0.51
+Step 138/200  reward=0.75  baseline=0.53
+Step 139/200  reward=0.50  baseline=0.53
+Step 140/200  reward=0.50  baseline=0.53
+Step 141/200  reward=0.75  baseline=0.55
+Step 142/200  reward=0.25  baseline=0.52
+Step 143/200  reward=0.50  baseline=0.52
+Step 144/200  reward=0.25  baseline=0.49
+Step 145/200  reward=0.25  baseline=0.47
+Step 146/200  reward=0.25  baseline=0.44
+Step 147/200  reward=0.50  baseline=0.45
+Step 148/200  reward=0.25  baseline=0.43
+Step 149/200  reward=0.25  baseline=0.41
+Step 150/200  reward=0.75  baseline=0.45
+Step 151/200  reward=0.50  baseline=0.45
+Step 152/200  reward=0.25  baseline=0.43
+Step 153/200  reward=0.00  baseline=0.39
+Step 154/200  reward=0.75  baseline=0.42
+Step 155/200  reward=0.50  baseline=0.43
+Step 156/200  reward=0.25  baseline=0.41
+Step 157/200  reward=0.50  baseline=0.42
+Step 158/200  reward=0.00  baseline=0.38
+Step 159/200  reward=0.50  baseline=0.39
+Step 160/200  reward=0.75  baseline=0.43
+Step 161/200  reward=0.25  baseline=0.41
+Step 162/200  reward=0.50  baseline=0.42
+Step 163/200  reward=1.00  baseline=0.48
+Step 164/200  reward=0.25  baseline=0.45
+Step 165/200  reward=1.00  baseline=0.51
+Step 166/200  reward=0.25  baseline=0.48
+Step 167/200  reward=0.75  baseline=0.51
+Step 168/200  reward=0.50  baseline=0.51
+Step 169/200  reward=0.25  baseline=0.48
+Step 170/200  reward=0.25  baseline=0.46
+Step 171/200  reward=1.00  baseline=0.51
+Step 172/200  reward=0.75  baseline=0.54
+Step 173/200  reward=0.25  baseline=0.51
+Step 174/200  reward=0.75  baseline=0.53
+Step 175/200  reward=0.50  baseline=0.53
+Step 176/200  reward=0.50  baseline=0.53
+Step 177/200  reward=1.00  baseline=0.57
+Step 178/200  reward=0.50  baseline=0.57
+Step 179/200  reward=0.50  baseline=0.56
+Step 180/200  reward=0.50  baseline=0.55
+Step 181/200  reward=0.25  baseline=0.52
+Step 182/200  reward=0.25  baseline=0.50
+Step 183/200  reward=0.50  baseline=0.50
+Step 184/200  reward=0.25  baseline=0.47
+Step 185/200  reward=0.50  baseline=0.47
+Step 186/200  reward=0.75  baseline=0.50
+Step 187/200  reward=0.50  baseline=0.50
+Step 188/200  reward=0.25  baseline=0.48
+Step 189/200  reward=0.50  baseline=0.48
+Step 190/200  reward=0.25  baseline=0.46
+Step 191/200  reward=0.25  baseline=0.44
+Step 192/200  reward=0.75  baseline=0.47
+Step 193/200  reward=0.25  baseline=0.45
+Step 194/200  reward=0.50  baseline=0.45
+Step 195/200  reward=0.25  baseline=0.43
+Step 196/200  reward=0.25  baseline=0.41
+Step 197/200  reward=0.75  baseline=0.45
+Step 198/200  reward=0.50  baseline=0.45
+Step 199/200  reward=0.25  baseline=0.43
+Step 200/200  reward=0.75  baseline=0.46
+
+Edge probabilities after REINFORCE:
+  Edge(10308bd2 -> 840a4ad2, p=0.97)  w=0.706  p=0.972  active=True
+  Edge(e217af55 -> 840a4ad2, p=1.00)  w=1.278  p=0.998  active=True
+  Edge(456425d9 -> 840a4ad2, p=1.00)  w=1.629  p=1.000  active=True
+  Edge(9faf962c -> 840a4ad2, p=0.01)  w=-0.964  p=0.008  active=False
+  Edge(d2636c36 -> 840a4ad2, p=0.00)  w=-1.194  p=0.003  active=False
+  Edge(7bb8246b -> 840a4ad2, p=0.00)  w=-1.190  p=0.003  active=False
+  Edge(591f4cb7 -> 840a4ad2, p=0.98)  w=0.746  p=0.977  active=True
+  Edge(3c06d6f6 -> 840a4ad2, p=0.00)  w=-1.246  p=0.002  active=False
+  Edge(728cb767 -> 840a4ad2, p=1.00)  w=1.157  p=0.997  active=True
+  Edge(2a83dec0 -> 840a4ad2, p=0.01)  w=-1.044  p=0.005  active=False
+  Edge(a83ec3a9 -> 840a4ad2, p=0.02)  w=-0.827  p=0.016  active=False
+  Edge(e95679de -> 840a4ad2, p=0.99)  w=0.988  p=0.993  active=True
+  Edge(c7185469 -> 840a4ad2, p=0.93)  w=0.528  p=0.933  active=True
+  Edge(53821c3b -> 840a4ad2, p=0.00)  w=-1.168  p=0.003  active=False
+  [RL] 10/100  acc=0.500
+  [RL] 20/100  acc=0.550
+  [RL] 30/100  acc=0.500
+  [RL] 40/100  acc=0.550
+  [RL] 50/100  acc=0.520
+  [RL] 60/100  acc=0.517
+  [RL] 70/100  acc=0.500
+  [RL] 80/100  acc=0.475
+  [RL] 90/100  acc=0.478
+  [RL] 100/100  acc=0.490
+REINFORCE accuracy: 0.490  tokens: 3359047
+
+=== [5/5] EA Optimization (7T7A) ===
+Gen 1/30  best=0.55  mean=0.47  topology=[1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0]
+Gen 2/30  best=0.70  mean=0.56  topology=[1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0]
+Gen 3/30  best=0.45  mean=0.35  topology=[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
+Gen 4/30  best=0.50  mean=0.47  topology=[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
+Gen 5/30  best=0.45  mean=0.41  topology=[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
+Gen 6/30  best=0.40  mean=0.33  topology=[1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1]
+Gen 7/30  best=0.55  mean=0.53  topology=[1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1]
+Gen 8/30  best=0.60  mean=0.52  topology=[0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1]
+Gen 9/30  best=0.60  mean=0.60  topology=[0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1]
+Gen 10/30  best=0.45  mean=0.42  topology=[0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1]
+Gen 11/30  best=0.45  mean=0.40  topology=[0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1]
+Gen 12/30  best=0.50  mean=0.44  topology=[0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1]
+Gen 13/30  best=0.55  mean=0.52  topology=[0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1]
+Gen 14/30  best=0.50  mean=0.40  topology=[1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1]
+Gen 15/30  best=0.30  mean=0.04  topology=[1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1]
+Gen 16/30  best=0.00  mean=0.00  topology=[1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1]
+Gen 17/30  best=0.00  mean=0.00  topology=[1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1]
+Gen 18/30  best=0.00  mean=0.00  topology=[1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1]
+Gen 19/30  best=0.00  mean=0.00  topology=[1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1]
+Gen 20/30  best=0.00  mean=0.00  topology=[1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1]
+Gen 21/30  best=0.00  mean=0.00  topology=[1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1]
+Gen 22/30  best=0.00  mean=0.00  topology=[1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1]
+Gen 23/30  best=0.00  mean=0.00  topology=[1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1]
+Gen 24/30  best=0.00  mean=0.00  topology=[1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1]
+Gen 25/30  best=0.00  mean=0.00  topology=[1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1]
+Gen 26/30  best=0.00  mean=0.00  topology=[1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1]
+Gen 27/30  best=0.00  mean=0.00  topology=[1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1]
+Gen 28/30  best=0.00  mean=0.00  topology=[1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1]
+Gen 29/30  best=0.00  mean=0.00  topology=[1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1]
+Gen 30/30  best=0.00  mean=0.00  topology=[1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1]
+
+Best topology: [1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0]
+  Edge(533b06ad -> 73e07b94, p=0.50)  active=True
+  Edge(3c48b5b9 -> 73e07b94, p=0.50)  active=False
+  Edge(57f352b3 -> 73e07b94, p=0.50)  active=False
+  Edge(fb33f75c -> 73e07b94, p=0.50)  active=False
+  Edge(3e32d16c -> 73e07b94, p=0.50)  active=True
+  Edge(2714dd9f -> 73e07b94, p=0.50)  active=True
+  Edge(14c79a56 -> 73e07b94, p=0.50)  active=True
+  Edge(b78d379b -> 73e07b94, p=0.50)  active=False
+  Edge(435be587 -> 73e07b94, p=0.50)  active=False
+  Edge(eb12fded -> 73e07b94, p=0.50)  active=True
+  Edge(7f3300db -> 73e07b94, p=0.50)  active=True
+  Edge(6050dad4 -> 73e07b94, p=0.50)  active=False
+  Edge(46aec055 -> 73e07b94, p=0.50)  active=True
+  Edge(1dc59899 -> 73e07b94, p=0.50)  active=False
+  [EA] 10/100  acc=0.000
+  [EA] 20/100  acc=0.000
+  [EA] 30/100  acc=0.000
+  [EA] 40/100  acc=0.000
+  [EA] 50/100  acc=0.000
+  [EA] 60/100  acc=0.000
+  [EA] 70/100  acc=0.000
+  [EA] 80/100  acc=0.000
+  [EA] 90/100  acc=0.000
+  [EA] 100/100  acc=0.000
+EA accuracy: 0.000  tokens: 16867873
+
+Results saved → /home5/s6426549/DLPGPT/results/n_pairs_7/mmlu_results.json
+
+======================================================================
+  SUMMARY  —  7T7A
+Method                     Accuracy   Total Tokens      Time
+----------------------------------------------------------------------
+IO (single agent)             0.490         24,340    109.6s
+Fully Connected               0.490        316,472    440.2s
+Random Connected              0.390        607,655   1050.9s
+REINFORCE                     0.490      3,359,047  11220.2s
+EA                            0.000     16,867,873  69658.4s
+======================================================================
+Job finished: Sat Jun 13 09:58:16 CEST 2026
+
+###############################################################################
+Hábrók Cluster
+Job 29493183 for user s6426549
+Finished at: Sat Jun 13 09:58:20 CEST 2026
+
+Job details:
+============
+
+Job ID                         : 29493183
+Name                           : gptswarm_7T7A
+User                           : s6426549
+Partition                      : gpulong
+Nodes                          : a100gpu1
+Number of Nodes                : 1
+Cores                          : 4
+Number of Tasks                : 1
+State                          : COMPLETED  
+Submit                         : 2026-06-12T10:47:07
+Start                          : 2026-06-12T10:57:01
+End                            : 2026-06-13T09:58:16
+Reserved walltime              : 1-08:00:00
+Used walltime                  :   23:01:15
+Used CPU time                  :   00:03:21 (Efficiency:  0.06%)
+% User (Computation)           : 80.04%
+% System (I/O)                 : 19.96%
+Total memory reserved          : 16G
+Maximum memory used            : 130.50M
+Requested GPUs                 : 1
+Allocated GPUs                 : a100=1
+Max GPU utilization            : 0%
+Max GPU memory used            : 0.00 
+Hints and tips      :
+ 1) You are running on a GPU node without actually using the GPU, please fix this.
+ *) For more information on these issues see:
+    https://wiki.hpc.rug.nl/habrok/additional_information/job_hints
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Hábrók in your publications:
+
+https://wiki.hpc.rug.nl/habrok/introduction/scientific_output
+
+################################################################################
