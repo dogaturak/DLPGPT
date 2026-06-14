@@ -20,6 +20,7 @@ class TokenTracker:
         self._completion: int = 0
         self._calls: int = 0
         self._snapshots: Dict[str, dict] = {}
+        self.tracking_failed: bool = False
 
     def reset(self, label: str = "") -> None:
         with self._lock:
@@ -27,6 +28,7 @@ class TokenTracker:
             self._prompt = 0
             self._completion = 0
             self._calls = 0
+            self.tracking_failed = False
 
     def record(self, prompt_tokens: int, completion_tokens: int) -> None:
         with self._lock:
@@ -51,6 +53,16 @@ class TokenTracker:
     def all_snapshots(self) -> Dict[str, dict]:
         with self._lock:
             return dict(self._snapshots)
+
+    def warn_if_failed(self) -> None:
+        if self.tracking_failed:
+            import warnings
+            warnings.warn(
+                "Token tracking was unreliable — "
+                "cost/efficiency metrics may be invalid.",
+                RuntimeWarning,
+                stacklevel=2,
+            )
 
 
 # Global singleton

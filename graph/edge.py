@@ -17,7 +17,7 @@ class Edge:
         target: "Node",
         transform: Optional[Callable[[Any], Any]] = None,
         weight: float = 0.0,
-        temperature: float = 0.2,
+        temperature: float = 1.0,
     ):
         self.source = source
         self.target = target

@@ -273,6 +273,8 @@ async def run(n_pairs: int, out_dir: str) -> dict:
         print(f"{method_label:<26} {r['accuracy']:>8.3f}  {r['total_tokens']:>13,}  {str(t)+'s':>8}")
     print("=" * 70, flush=True)
 
+    tracker.warn_if_failed()
+
     return results
 
 

@@ -42,7 +42,7 @@ class LLMNode(Node):
                 {"role": "user", "content": self.user_template.format(input=str(input))},
             ],
             "stream": False,
-            "options": {"temperature": 0},
+            "options": {"temperature": 0.2},
         }
 
         try:
@@ -69,7 +69,7 @@ class LLMNode(Node):
                     data.get("eval_count", 0),
                 )
             except Exception:
-                pass
+                tracker.tracking_failed = True
 
         return self._parse_numbered_list(text) if self.split_output else text
 
